@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.IntStream;
 
 class Solution {
     public int[] solution(int n) {
@@ -9,11 +10,12 @@ class Solution {
             if (n % i == 0) arrayList.add(i);
         }
         
-        int[] answer = new int[arrayList.size()];
-        for(int i = 0; i < arrayList.size(); i++) {
-            answer[i] = arrayList.get(i);
-        }
+//         int[] answer = new int[arrayList.size()];
+//         for(int i = 0; i < arrayList.size(); i++) {
+//             answer[i] = arrayList.get(i);
+//         }
         
-        return answer;
+//         return answer;
+        return arrayList.stream().mapToInt(x -> x).toArray();
     }
 }
