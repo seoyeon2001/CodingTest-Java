@@ -41,6 +41,7 @@ public class Main {
             }
         }
         System.out.println(max);
+
     }
 
     // 재귀 -> 종료 필수
@@ -69,29 +70,25 @@ public class Main {
     }
 
     // 기준: 가운데
-    static void checkT(int x, int y) {
-        // ㅗ 모양: 위 + 좌우
-        if (x - 1 >= 0 && y - 1 >= 0 && y + 1 < M) {
-            int sum = arr[x][y] + arr[x - 1][y] + arr[x][y - 1] + arr[x][y + 1];
-            max = Math.max(max, sum);
+    static void checkT(int row, int col) {
+        // 아
+        if (col >= 0 && row >= 1 && col <= M - 2 && row <= N - 2) {
+            max = Math.max(max, arr[row][col] + arr[row+1][col] + arr[row-1][col] + arr[row][col+1]);
         }
 
-        // ㅜ 모양: 아래 + 좌우
-        if (x + 1 < N && y - 1 >= 0 && y + 1 < M) {
-            int sum = arr[x][y] + arr[x + 1][y] + arr[x][y - 1] + arr[x][y + 1];
-            max = Math.max(max, sum);
+        // 어
+        if (col >= 1 && row >= 1 && col <= M - 1 && row <= N - 2) {
+            max = Math.max(max, arr[row][col] + arr[row-1][col] + arr[row][col-1] + arr[row+1][col]);
         }
 
-        // ㅓ 모양: 좌 + 상하
-        if (x - 1 >= 0 && x + 1 < N && y - 1 >= 0) {
-            int sum = arr[x][y] + arr[x - 1][y] + arr[x + 1][y] + arr[x][y - 1];
-            max = Math.max(max, sum);
+        // 오
+        if (col >= 1 && row >= 1 && col <= M - 2 && row <= N - 1) {
+            max = Math.max(max, arr[row][col] + arr[row-1][col] + arr[row][col+1] + arr[row][col-1]);
         }
 
-        // ㅏ 모양: 우 + 상하
-        if (x - 1 >= 0 && x + 1 < N && y + 1 < M) {
-            int sum = arr[x][y] + arr[x - 1][y] + arr[x + 1][y] + arr[x][y + 1];
-            max = Math.max(max, sum);
+        // 우
+        if (col >= 1 && row >= 0 && col <= M - 2 && row <= N - 2) {
+            max = Math.max(max, arr[row][col] + arr[row][col-1] + arr[row+1][col] + arr[row][col+1]);
         }
     }
 }
