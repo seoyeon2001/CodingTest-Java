@@ -8,12 +8,11 @@ public class Main {
         String[] inputs = br.readLine().split("-");
 //        System.out.println(Arrays.toString(inputs));
 
-        StringTokenizer st;
         int[] result = new int[inputs.length];
         for(int i = 0; i < inputs.length; i++) {
 
             if (inputs[i].contains("+")) {
-                st = new StringTokenizer(inputs[i], "+");
+                StringTokenizer st = new StringTokenizer(inputs[i], "+"); // \\+
 
                 int tmp = 0;
                 while(st.hasMoreTokens()) {
