@@ -14,33 +14,30 @@ public class Main {
             st = new StringTokenizer(br.readLine());
 
 
-            switch(Integer.parseInt(st.nextToken())) {
-                case 1:
+            switch(st.nextToken()) {
+                case "1":
                     q.add(Integer.parseInt(st.nextToken()));
                     break;
-                case 2:
+                case "2":
                     if(!q.isEmpty()) {
                         System.out.println(q.pollLast());
-                        break;
                     } else {
                         System.out.println(-1);
-                        break;
                     }
-                case 3:
+                    break;
+                case "3":
                     System.out.println(q.size());
                     break;
-                case 4:
+                case "4":
                     System.out.println(q.isEmpty() ? 1 : 0);
                     break;
-                case 5:
+                case "5":
                     if(!q.isEmpty()) {
                         System.out.println(q.peekLast());
-                        break;
                     } else {
                         System.out.println(-1);
-                        break;
                     }
-
+                    break;
             }
         }
     }
