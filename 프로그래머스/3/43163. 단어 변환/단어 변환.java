@@ -26,8 +26,7 @@ class Solution {
                     if(!visited[i]) {
                         q.add(new Pair(words[i], cnt+1));
                         visited[i] = true;
-                    }
-                    
+                    }                    
                 }
             }
         }       
@@ -36,7 +35,6 @@ class Solution {
     
     // 하나만 다른지 확인
     static boolean check(String word1, String word2) {
-        
         int time = 0;
         // 다른 횟수 계산
         for(int i = 0; i < word1.length(); i++) {
