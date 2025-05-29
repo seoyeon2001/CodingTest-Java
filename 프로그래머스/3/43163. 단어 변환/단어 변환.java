@@ -2,59 +2,51 @@ import java.util.*;
 
 class Solution {
     public int solution(String begin, String target, String[] words) {
-        int answer = Integer.MAX_VALUE;
         
-        // words에 target이 없으면 0 return
-        if(!Arrays.asList(words).contains(target)) return 0;
-        
+        boolean[] visited = new boolean[words.length];
         Deque<Pair> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[words.length];     
-    
+        
         q.add(new Pair(begin, 0));
         
         while(!q.isEmpty()) {
-            Pair p = q.poll();
-            String word = p.word;
-            int cnt = p.cnt;
+            Pair cur = q.poll();
+            String curWord = cur.word;
+            int curCnt = cur.cnt;
             
-            if(word.equals(target)) {
-                return cnt;
-            }
+            if (curWord.equals(target)) return curCnt;
             
             for (int i = 0; i < words.length; i++) {
-                if (check(word, words[i])) {
-                    if(!visited[i]) {
-                        q.add(new Pair(words[i], cnt+1));
-                        visited[i] = true;
-                    }                    
+                if (!visited[i] && check(curWord, words[i])) {
+                    q.add(new Pair(words[i], curCnt + 1));
+                    visited[i] = true;
                 }
             }
-        }       
+        }
         return 0;
     }
     
-    // 하나만 다른지 확인
+    // 한 개의 알파벳만 다른지 확인하는 메서드
     static boolean check(String word1, String word2) {
-        int time = 0;
-        // 다른 횟수 계산
-        for(int i = 0; i < word1.length(); i++) {
-            if (word1.charAt(i) != word2.charAt(i)) {
-                time++;
-            }
+        int cnt = 0;
+        
+        int length = word1.length();
+        for (int i = 0; i < length; i++) {
+            // 다르면 cnt++
+            if (word1.charAt(i) != word2.charAt(i)) cnt++;
         }
-        if (time == 1) return true;
-        else return false;
+        
+        if (cnt != 1) return false;
+        
+        return true;
     }
-    
 }
 
 class Pair {
     String word;
     int cnt;
-
+    
     Pair(String word, int cnt) {
         this.word = word;
         this.cnt = cnt;
     }
-
 }
