@@ -1,7 +1,9 @@
+/*
+// 백트래킹
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class BOJ_2961 {
     static int[][] flavors;
     static int result = Integer.MAX_VALUE;
 
@@ -60,12 +62,57 @@ public class Main {
 
         int smat = 1;
         int bmat = 0;
-        for(int i = 0; i < idx.size(); i++) {
+        for (int i = 0; i < idx.size(); i++) {
             smat *= flavors[idx.get(i)][0];
             bmat += flavors[idx.get(i)][1];
         }
 
         int answer = Math.abs((smat - bmat));
         result = Math.min(result, answer);
+    }
+}
+*/
+// 비트 마스킹 방법
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static int[][] flavors;
+    static int result = Integer.MAX_VALUE;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+
+        StringTokenizer st;
+        flavors = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+
+            int s = Integer.parseInt(st.nextToken()); // 신맛
+            int b = Integer.parseInt(st.nextToken()); // 쓴맛
+
+            flavors[i][0] = s;
+            flavors[i][1] = b;
+        }
+
+        int lth = 1 << n; // 2의 n승 -> 부분집합의 개수
+        for(int i = 1; i < lth; ++i) { // 1부터 시작 -> 공집합 제외
+            int smat = 1;
+            int bmat = 0;
+
+            for (int j = 0; j < n; ++j) { // 0번째 재료, 1번째 재료...
+                if((i & (1 << j)) != 0) {
+                    smat *= flavors[j][0];
+                    bmat += flavors[j][1];
+                }
+            }
+
+            int answer = Math.abs(smat - bmat);
+            result = Math.min(result, answer);
+        }
+
+        System.out.print(result);
     }
 }
