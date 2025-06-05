@@ -34,14 +34,11 @@ public class Main {
             visited[i] = true;
             check(i, childList, visited);
             check(i, parentList, visited);
-//            System.out.println(i + "번째 확인합니다.");
-//            System.out.println(Arrays.toString(visited));
 
             int check = 0;
             for (boolean b : visited) {
                 if (b) check++;
             }
-//            System.out.println(check);
 
             if (check == N) {
                 answer++;
@@ -51,11 +48,9 @@ public class Main {
         System.out.println(answer);
     }
 
-    // 자식 체크
     static void check(int start, List<Integer>[] list, boolean[] visited) {
 
         if (list[start].isEmpty()) {
-            visited[start] = true;
             return;
         }
 
@@ -67,22 +62,4 @@ public class Main {
             }
         }
     }
-
-    // 부모 체크
-    static void checkParent(int start, List<Integer>[] list, boolean[] visited) {
-
-        if (list[start].isEmpty()) {
-            visited[start] = true;
-            return;
-        }
-
-        List<Integer> parent = list[start];
-        for (Integer i : parent) {
-            if (!visited[i]) {
-                visited[i] = true;
-                checkParent(i, list, visited);
-            }
-        }
-    }
-
 }
