@@ -32,8 +32,8 @@ public class Main {
         for (int i = 1; i <= N; i++) { // 1부터 N까지 N번 반복
             boolean[] visited = new boolean[N+1];
             visited[i] = true;
-            checkChild(i, childList, visited);
-            checkParent(i, parentList, visited);
+            check(i, childList, visited);
+            check(i, parentList, visited);
 //            System.out.println(i + "번째 확인합니다.");
 //            System.out.println(Arrays.toString(visited));
 
@@ -52,18 +52,18 @@ public class Main {
     }
 
     // 자식 체크
-    static void checkChild(int start, List<Integer>[] list, boolean[] visited) {
+    static void check(int start, List<Integer>[] list, boolean[] visited) {
 
         if (list[start].isEmpty()) {
             visited[start] = true;
             return;
         }
 
-        List<Integer> child = list[start];
-        for (Integer i : child) {
+        List<Integer> node = list[start];
+        for (Integer i : node) {
             if (!visited[i]) {
                 visited[i] = true;
-                checkChild(i, list, visited);
+                check(i, list, visited);
             }
         }
     }
