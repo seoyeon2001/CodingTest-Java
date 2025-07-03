@@ -36,7 +36,6 @@ class Solution {
             }
         }
         
-        // return (result == 0) ? secToString(result) : secToString(result + 1);
         return secToString(result);
     }
     
