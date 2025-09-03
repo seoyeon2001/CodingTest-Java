@@ -39,7 +39,6 @@ public class Main {
             int[] cur = q.poll();
             int cNum = cur[2], cOperator = cur[3], cDist = cur[4];
 
-
             if(cur[0] == N-1 && cur[1] == N-1) {
                 max = Math.max(max, cNum);
                 min = Math.min(min, cNum);
@@ -68,8 +67,6 @@ public class Main {
 
                     q.add(new int[] {nr, nc, nextNum, 4, cDist+1});
                 }
-
-
             }
 
         }
