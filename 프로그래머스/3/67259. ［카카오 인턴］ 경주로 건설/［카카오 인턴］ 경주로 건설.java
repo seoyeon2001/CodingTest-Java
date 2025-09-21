@@ -42,20 +42,12 @@ class Solution {
                 
                 if(nr < 0 || nr >= N || nc < 0 || nc >= N || board[nr][nc] == 1) continue;
                 
-                if (dir == i) { // 같은 방향
-                    
-                    if (cost[nr][nc][i] > cCost + 100) {
-                        cost[nr][nc][i] = cCost + 100;
-                        q.add(new int[] {nr, nc, cCost + 100, i});
-                    }
-                    
-                } else { // 다른 방향
-                    
-                    if (cost[nr][nc][i] > cCost + 600) {
-                        cost[nr][nc][i] = cCost + 600;
-                        q.add(new int[] {nr, nc, cCost + 600, i});
-                    }
-                } 
+                int nCost = cCost + (dir == i ? 100 : 600);
+                
+                if (cost[nr][nc][i] > nCost) {
+                    cost[nr][nc][i] = nCost;
+                    q.add(new int[] {nr, nc, nCost, i});
+                }
             } 
         }
         
