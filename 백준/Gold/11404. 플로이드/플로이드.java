@@ -28,6 +28,12 @@ public class Main {
         for(int i = 0; i<= n; i++) {
             list.add(new ArrayList<>());
         }
+        
+        int[][] answer = new int[n+1][n+1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(answer[i], Integer.MAX_VALUE);
+            answer[i][i] = 0;
+        }
 
         StringTokenizer st;
         for(int i = 0; i < m; i++) {
@@ -38,12 +44,6 @@ public class Main {
             int c = Integer.parseInt(st.nextToken());
 
             list.get(a).add(new Node(b, c));
-        }
-
-        int[][] answer = new int[n+1][n+1];
-        for (int i = 0; i <= n; i++) {
-            Arrays.fill(answer[i], Integer.MAX_VALUE);
-            answer[i][i] = 0;
         }
         
         dijkstra(n, answer, list);
