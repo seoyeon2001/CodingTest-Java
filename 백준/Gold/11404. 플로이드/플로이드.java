@@ -41,10 +41,23 @@ public class Main {
         }
 
         int[][] answer = new int[n+1][n+1];
-        for(int[] row : answer) {
-            Arrays.fill(row, Integer.MAX_VALUE);
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(answer[i], Integer.MAX_VALUE);
+            answer[i][i] = 0;
         }
+        
+        dijkstra(n, answer, list);
 
+        // 출력
+        for(int i = 1; i < n+1; i++) {
+            for(int j = 1; j < n+1; j++) {
+                System.out.print((answer[i][j] == Integer.MAX_VALUE ? 0 : answer[i][j]) + " ");
+            }
+            System.out.println();
+        }
+    }
+    
+    private static void dijkstra(int n, int[][] answer, List<List<Node>> list) {
         // 모든 도시에서 출발해봐야 함
         for(int start = 1; start <= n; start++) {
             Queue<Node> q = new PriorityQueue<>();
@@ -67,15 +80,6 @@ public class Main {
                     }
                 }
             }
-        }
-
-
-        // 출력
-        for(int i = 1; i < n+1; i++) {
-            for(int j = 1; j < n+1; j++) {
-                System.out.print((answer[i][j] == Integer.MAX_VALUE ? 0 : answer[i][j]) + " ");
-            }
-            System.out.println();
         }
     }
 }
