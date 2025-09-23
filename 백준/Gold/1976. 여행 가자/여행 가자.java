@@ -2,10 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
-    static boolean[] visited;
-    static int[][] graph;
-    static int[] plan;
+    
+    static int[] parent;
 
     static int N;
 
@@ -16,41 +14,57 @@ public class Main {
         N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
 
-        visited = new boolean[N];
-        graph = new int[N][N];
-        plan = new int[M];
+        parent = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            parent[i] = i;
+        }
 
-        for(int i = 0; i < N; i++) {
+        for (int i = 1; i <= N; i++) {
             st = new StringTokenizer(br.readLine());
+            for (int j = 1; j <= N; j++) {
+                int temp = Integer.parseInt(st.nextToken());
 
-            for (int j = 0; j < N; j++) {
-                graph[i][j] = Integer.parseInt(st.nextToken());
+                // 연결된 부분은 합집합 연산함.
+                if (temp == 1) {
+                    union(i, j);
+                }
             }
         }
 
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < M; i++) {
-            plan[i] = Integer.parseInt(st.nextToken());
-        }
+        int start = find(Integer.parseInt(st.nextToken()));
+        for (int i = 1; i < M; i++) {
+            int now = Integer.parseInt(st.nextToken());
 
-        dfs(plan[0] - 1);
-
-        for (int p : plan) {
-            if (!visited[p - 1]) {
+            // 맨 처음 출발 도시와 연결되어있지 않은 도시가 있으면
+            // 여행 계획이 불가능한 것임.
+            if (start != find(now)) {
                 System.out.println("NO");
-                System.exit(0);
+                return;
             }
         }
 
         System.out.println("YES");
     }
 
-    public static void dfs(int x) {
-        visited[x] = true;
+    // x의 부모를 찾는 연산
+    public static int find(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = find(parent[x]);
+    }
 
-        for (int i = 0; i < N; i++) {
-            if (graph[x][i] == 1 && !visited[i]) {
-                dfs(i);
+    // y의 부모를 x의 부모로 치환하는 연산 (x > y 일 경우, 반대)
+    public static void union(int x, int y) {
+        x = find(x);
+        y = find(y);
+
+        if (x != y) {
+            if (x < y) {
+                parent[y] = x;
+            } else {
+                parent[x] = y;
             }
         }
     }
