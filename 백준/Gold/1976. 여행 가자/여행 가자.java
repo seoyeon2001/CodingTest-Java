@@ -36,7 +36,7 @@ public class Main {
         dfs(plan[0] - 1);
 
         for (int p : plan) {
-            if (p > 0 && !visited[p - 1]) {
+            if (!visited[p - 1]) {
                 System.out.println("NO");
                 System.exit(0);
             }
