@@ -25,8 +25,6 @@ public class Main {
         for(int i = 0; i <= K; i++) {
             result = Math.max(result, dp[i]);
         }
-        System.out.println(result);
+        System.out.println(dp[K]);
     }
-
-
 }
