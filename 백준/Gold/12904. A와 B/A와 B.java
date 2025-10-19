@@ -6,39 +6,20 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String S = br.readLine();
-        String[] T = br.readLine().split("");
+        String T = br.readLine();
 
-        Deque<String> q = new ArrayDeque<>();
-        for(int i = 0; i < T.length; i++) {
-            q.add(T[i]);
-        }
+        while (S.length() != T.length()) {
+            char lastAlpa = T.charAt(T.length() - 1);
 
-        Deque<String> newQ;
-
-        while (q.size() != S.length()) {
-
-            if (q.peekLast().equals("A")) {
-                q.pollLast();
-            } else {
-                q.pollLast();
-                newQ = new ArrayDeque<>();
-                while (!q.isEmpty()) {
-                    newQ.add(q.pollLast());
-                }
-                q = newQ;
+            if (lastAlpa == 'A') {
+                T = T.substring(0, T.length() - 1);
+            } else if (lastAlpa == 'B') {
+                T = T.substring(0, T.length() - 1);
+                StringBuffer sb = new StringBuffer(T);
+                T = sb.reverse().toString();
             }
         }
 
-        String rest = "";
-        while (!q.isEmpty()) {
-            rest += q.poll();
-        }
-        if (rest.equals(S)) {
-            System.out.println("1");
-        } else {
-            System.out.println("0");
-        }
-
-
+        System.out.println(T.equals(S) ? 1 : 0);
     }
 }
