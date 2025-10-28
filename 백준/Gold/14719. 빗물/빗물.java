@@ -28,15 +28,15 @@ public class Main {
         int[] rightMax = new int[w];
 
         // 왼쪽 최대 높이 계산
-        leftMax[0] = height[0];
-        for (int i = 1; i < w; i++) {
-            leftMax[i] = Math.max(leftMax[i-1], height[i]);
+        leftMax[0] = 0;
+        for (int i = 1; i < w-1; i++) {
+            leftMax[i] = Math.max(leftMax[i-1], height[i-1]);
         }
 
         // 오른쪽 최대 높이 계산
-        rightMax[w - 1] = height[w - 1];
-        for (int i = w - 2; i >= 0; i--) {
-            rightMax[i] = Math.max(rightMax[i+1], height[i]);
+        rightMax[w-1] = 0;
+        for (int i = w-2; i > 0; i--) {
+            rightMax[i] = Math.max(rightMax[i+1], height[i+1]);
         }
 
         // 각 위치의 물 높이 계산
