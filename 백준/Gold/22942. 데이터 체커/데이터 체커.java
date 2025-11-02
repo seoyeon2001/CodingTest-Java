@@ -17,19 +17,16 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        int[][] arr = new int[N][2];
 
         List<Point> list = new ArrayList<>();
-        
+
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken());
             int r = Integer.parseInt(st.nextToken());
-            arr[i][0] = x - r;
-            arr[i][1] = x + r;
 
-            list.add(new Point(arr[i][0], true, i));  // 시작점
-            list.add(new Point(arr[i][1], false, i)); // 끝점
+            list.add(new Point(x - r, true, i));  // 시작점
+            list.add(new Point(x + r, false, i)); // 끝점
         }
 
         // x좌표 기준 정렬, 같을 경우 끝점이 시작점보다 먼저 오게
