@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static HashMap<String, Integer> map = new HashMap<>();
-    static int[] parents;
+    static HashMap<String, Integer> map;
+    static int[] parent;
     static int[] dp;
     
     public static void main(String[] args) throws IOException {
@@ -17,13 +17,15 @@ public class Main {
 
             // 시작
             int n = Integer.parseInt(br.readLine());
-            parents = new int[2*n];
+            parent = new int[2*n];
             for(int j = 0; j < 2*n; j++) {
-                parents[j] = j;
+                parent[j] = j;
             }
 
             dp = new int[2*n];
             Arrays.fill(dp, 1);
+
+            map = new HashMap<>();
             
             int num = 0;
             for(int j = 0; j < n; j++) {
@@ -32,13 +34,8 @@ public class Main {
                 String first = st.nextToken();
                 String second = st.nextToken();
 
-                if(!map.containsKey(first)) {
-                    map.put(first, num++);
-                }
-
-                if(!map.containsKey(second)) {
-                    map.put(second, num++);
-                }
+                if(!map.containsKey(first)) map.put(first, num++);
+                if(!map.containsKey(second)) map.put(second, num++);
 
                 int result = union(map.get(first), map.get(second));
                 sb.append(result).append("\n");
@@ -46,23 +43,23 @@ public class Main {
             // 끝
         }
         System.out.println(sb);
-
     }
 
     static int find(int x) {
-        if(x == parents[x]) return x;
-        else return find(parents[x]);
+        if (x != parent[x]) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
     }
 
     static int union(int x, int y) {
         x = find(x);
         y = find(y);
 
-        if(x == y) return dp[x];
-        else {
-            parents[y] = x;
+        if(x != y){
+            parent[y] = x;
             dp[x] += dp[y];
-            return dp[x];
         }
+        return dp[x];
     }
 }
