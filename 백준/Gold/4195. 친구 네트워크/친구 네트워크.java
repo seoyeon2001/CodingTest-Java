@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
 
         int t = Integer.parseInt(br.readLine());
 
@@ -39,20 +40,12 @@ public class Main {
                     map.put(second, num++);
                 }
 
-                int a = union(map.get(first), map.get(second));
-                System.out.println(a);
-
-
+                int result = union(map.get(first), map.get(second));
+                sb.append(result).append("\n");
             }
-//            System.out.println(Collections.unmodifiableMap(map));
-//            System.out.println(num);
-
-//            int[] parents = new int[num];
-
-
-
             // 끝
         }
+        System.out.println(sb);
 
     }
 
@@ -71,7 +64,5 @@ public class Main {
             dp[x] += dp[y];
             return dp[x];
         }
-
-
     }
 }
