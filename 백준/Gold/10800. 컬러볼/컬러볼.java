@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -25,7 +24,8 @@ public class Main {
         int totalSum = 0;
 
         int idx = 0;
-        for (int i = 0; i < n; i++) {
+        answer[arr[0][2]] = 0;
+        for (int i = 1; i < n; i++) {
             int curColor = arr[i][0], curSize = arr[i][1];
 
             while (arr[idx][1] < curSize) {
@@ -37,7 +37,7 @@ public class Main {
 
             answer[arr[i][2]] = totalSum - colorSum[curColor];
         }
-        
+
         for(int ans : answer) {
             System.out.println(ans);
         }
