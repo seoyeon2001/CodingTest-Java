@@ -18,7 +18,7 @@ public class Main {
             arr[i][0] = color; arr[i][1] = size; arr[i][2] = i;
         }
 
-        Arrays.sort(arr, Comparator.comparing(o -> o[1])); // size로 정렬
+        Arrays.sort(arr, (a, b) -> a[1] - b[1]); // size로 정렬
 
         int[] answer = new int[n];
         int[] colorSum = new int[200001];
