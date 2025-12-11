@@ -11,18 +11,14 @@ public class Main {
 
         Set<Long> set = new HashSet<>();
         for(long i = 2; i <= Math.sqrt(max); i++) {
-//            System.out.println("i = " + i);
-
-            long wprhqtn = i*i;
-            for(long j = min / wprhqtn; j <= max / wprhqtn; j++) {
-//                if(wprhqtn * j == 0) System.out.println("i = " + i + " j = " + j);
-                if(wprhqtn*j < min) continue;
-                set.add(wprhqtn*j);
+            long num = i * i;
+            for(long j = min / num; j <= max / num; j++) {
+                if(num * j < min) continue;
+                set.add(num*j);
             }
         }
 //        System.out.println("set = " + set);
 //        System.out.println("size = " + set.size());
         System.out.println(max-min+1-set.size());
-
     }
 }
