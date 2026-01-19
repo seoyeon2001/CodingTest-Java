@@ -14,6 +14,13 @@ public class Main {
 
             for(Stack<Character> stack : stackList) {
                 if(!stack.isEmpty()) {
+                    if (nextWord(stack.peek()) == word) {
+                        stack.add(word);
+                        chk = true;
+                        break;
+                    }
+
+                    /*
                     if(stack.peek() == 'k' && word == 'q') {
                         stack.add(word);
                         chk = true;
@@ -35,6 +42,7 @@ public class Main {
                         chk = true;
                         break;
                     }
+                     */
                 }
             }
 
@@ -57,6 +65,16 @@ public class Main {
             }
         }
         System.out.println(answer);
+    }
 
+    static char nextWord(char word) {
+        switch (word) {
+            case 'q': return 'u';
+            case 'u': return 'a';
+            case 'a': return 'c';
+            case 'c': return 'k';
+            case 'k': return 'q';
+            default: return 0;
+        }
     }
 }
