@@ -4,13 +4,11 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         char[] words = br.readLine().toCharArray();
 
         int answer = 0;
 
         List<Stack<Character>> stackList = new ArrayList<>();
-
         for(Character word : words) {
             boolean chk = false;
 
@@ -20,9 +18,7 @@ public class Main {
                         stack.add(word);
                         chk = true;
                         break;
-                    }
-
-                    if(stack.peek() == 'q' && word == 'u') {
+                    } else if(stack.peek() == 'q' && word == 'u') {
                         stack.add(word);
                         chk = true;
                         break;
@@ -35,10 +31,6 @@ public class Main {
                         chk = true;
                         break;
                     } else if(stack.peek() == 'c' && word == 'k') {
-                        stack.add(word);
-                        chk = true;
-                        break;
-                    } else if(stack.peek() == 'k' && word == 'q') {
                         stack.add(word);
                         chk = true;
                         break;
