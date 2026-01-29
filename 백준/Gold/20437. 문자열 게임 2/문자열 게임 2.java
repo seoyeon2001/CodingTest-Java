@@ -11,29 +11,32 @@ public class Main {
             char[] arr = br.readLine().toCharArray();
             int k = Integer.parseInt(br.readLine());
 
-            Map<Character, List<Integer>> map = new HashMap<>();
+            List<Integer>[] pos = new ArrayList[26];
+            for (int i = 0; i < 26; i++) {
+                pos[i] = new ArrayList<>();
+            }
 
-            List<Integer> answer = new ArrayList<>();
-            for(int i = 0; i < arr.length; i++) {
-                map.putIfAbsent(arr[i], new ArrayList<>());
-                map.get(arr[i]).add(i);
+            int minLen = Integer.MAX_VALUE;
+            int maxLen = Integer.MIN_VALUE;
 
-                if(map.get(arr[i]).size() >= k) {
-                    int size = map.get(arr[i]).size();
-                    List<Integer> idx = map.get(arr[i]);
-                    answer.add(idx.get(size-1) - idx.get(size-k) + 1);
+            for (int i = 0; i < arr.length; i++) {
+                int idx = arr[i] - 'a';
+                pos[idx].add(i);
+
+                int size = pos[idx].size();
+                if (size >= k) {
+                    int len = pos[idx].get(size - 1) - pos[idx].get(size - k) + 1;
+                    minLen = Math.min(minLen, len);
+                    maxLen = Math.max(maxLen, len);
                 }
             }
-            Collections.sort(answer);
-//            System.out.println("answer = " + answer);
 
-            if(answer.size() >= 1) {
-                sb.append(String.format("%d %d\n", answer.get(0), answer.get(answer.size()-1)));
+            if (minLen == Integer.MAX_VALUE) {
+                sb.append(-1).append('\n');
             } else {
-                sb.append(-1).append("\n");
+                sb.append(minLen).append(' ').append(maxLen).append('\n');
             }
         }
         System.out.println(sb);
     }
 }
-
