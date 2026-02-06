@@ -15,18 +15,19 @@ public class Main {
 
         int answer = 0;
 
-        String target = String.format("%0" + k + "d", x);
+        int[] targetArr = new int[k];
+        toDigits(x, targetArr, k);
+
         for(int i = 1; i <= n; i++) {
-            String format = "%0" + k + "d";
-            String number = String.format(format, i);
-//            System.out.println("number = " + number);
+            if(i == x) continue;
+
+            int[] curArr = new int[k];
+            toDigits(i, curArr, k);
 
             int cnt = 0;
-            if(target.equals(number)) continue;
-
             for(int j = 0; j < k; j++) {
-                int a = target.charAt(j) - '0';
-                int b = number.charAt(j) - '0';
+                int a = targetArr[j];
+                int b = curArr[j];
 
                 if(a == b) continue;
 
@@ -35,9 +36,15 @@ public class Main {
             }
 
             if(cnt <= p) answer++;
-
         }
         System.out.println(answer);
+    }
+
+    static void toDigits(int num, int[] arr, int k) {
+        for(int i = k - 1; i >= 0; i--) {
+            arr[i] = num % 10;
+            num /= 10;
+        }
     }
 
     public static void setting() {
