@@ -9,9 +9,12 @@ public class Main {
         int n = Integer.parseInt(br.readLine()); // 1000 이하
         int[] scores = new int[n];
 
+        int scoreSum = 0;
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++) {
-            scores[i] = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            scores[i] = num;
+            scoreSum += num;
         }
         br.close();
 
@@ -20,17 +23,8 @@ public class Main {
         int maxScore = scores[n-1];
 //        System.out.println("maxScore = " + maxScore);
 
-        // 새로운 점수의 합
-        double newScoreSum = 0;
-        for(int i = 0; i < n; i++) {
-            double newScore = scores[i] * 100.0 / maxScore;
-//            System.out.println("newScore = " + newScore);
-            newScoreSum += newScore;
-        }
-//        System.out.println("newScoreSum = " + newScoreSum);
-
         // 새로운 점수의 평균
-        double answer = newScoreSum / n;
+        double answer = scoreSum * 100.0 / n / maxScore;
 
         System.out.println(answer);
     }
