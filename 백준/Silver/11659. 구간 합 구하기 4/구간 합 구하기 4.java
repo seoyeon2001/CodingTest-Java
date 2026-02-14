@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder("");
 
         int n = Integer.parseInt(st.nextToken()); // 10만 미만
         int m = Integer.parseInt(st.nextToken()); // 10만 미만
@@ -27,7 +28,8 @@ public class Main {
             int idx2 = Integer.parseInt(st.nextToken());
 
             int answer = sum[idx2] - sum[idx1-1];
-            System.out.println(answer);
+            sb.append(answer).append("\n");
         }
+        System.out.println(sb);
     }
 }
