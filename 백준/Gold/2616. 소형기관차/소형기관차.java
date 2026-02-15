@@ -22,35 +22,45 @@ public class Main {
             sumArr[i] = sumArr[i-1] + arr[i-1];
         }
 
-//        System.out.println("sumArr = " + Arrays.toString(sumArr));
-
-        // 박스 선택
-        int[] dp = new int[n];
-        for(int i = maxBox-1; i < n; i++) { // i = 1 ~ 6
-            dp[i] = sumArr[i+1] - sumArr[i+1-maxBox];
-        }
-//        System.out.println("dp = " + Arrays.toString(dp));
-
-        int[][] answer = new int[3][n];
-
-        // 기차 1개
+        // 앞에서부터 박스 선택
+        int[] frontBoxSum = new int[n];
         for(int i = maxBox-1; i < n; i++) {
-            answer[0][i] = Math.max(answer[0][i-1], dp[i]);
+            frontBoxSum[i] = sumArr[i+1] - sumArr[i+1-maxBox];
         }
-//        System.out.println("기차 1개 = " + Arrays.toString(answer[0]));
 
-        // 기차 2개
-        for(int i = maxBox*2-1; i < n; i++) {
-            answer[1][i] = Math.max(answer[1][i-1], answer[0][i-maxBox] + dp[i]);
+        // 뒤에서부터 박스 선택
+        int[] backBoxSum = new int[n];
+        for(int i = n-maxBox; i >= 0; i--) {
+            backBoxSum[i] = sumArr[i+maxBox] - sumArr[i];
         }
-//        System.out.println("기차 2개 = " + Arrays.toString(answer[1]));
 
-        // 기차 3개
-        for(int i = maxBox*3-1; i < n; i++) {
-            answer[2][i] = Math.max(answer[2][i-1], answer[1][i-maxBox] + dp[i]);
+        // front
+        int[] frontDp = new int[n];
+        for(int i = 1; i < n; i++) {
+            frontDp[i] = Math.max(frontDp[i-1], frontBoxSum[i]);
         }
-//        System.out.println("기차 3개 = " + Arrays.toString(answer[2]));
 
-        System.out.println(answer[2][n-1]);
+        // back
+        int[] backDp = new int[n];
+        for(int i = n-2; i >= 0; i--) {
+            backDp[i] = Math.max(backDp[i+1], backBoxSum[i]);
+        }
+
+        int answer = 0;
+
+        // i = 중간
+        for(int i = maxBox*2-1; i < n - maxBox; i++) {
+            int mid = frontBoxSum[i];
+
+            // 앞 열차
+            int front = frontDp[i-maxBox];
+
+            // 뒤 열차
+            int back = backDp[i+1];
+
+            answer = Math.max(answer, front + back + mid);
+        }
+
+        System.out.println(answer);
     }
 }
