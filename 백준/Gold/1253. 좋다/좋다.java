@@ -22,16 +22,21 @@ public class Main {
 
             int s = 0, e = n-1;
             while(s < e) {
+                if(s == i) {
+                    s++;
+                    continue;
+                }
+                if(e == i) {
+                    e--;
+                    continue;
+                }
+
                 int sum = arr[s] + arr[e];
 
                 if(sum == targetNum) {
                     if(s != i && e != i) {
                         result++;
                         break;
-                    } else if(i == s) {
-                        s++;
-                    } else if(i == e) {
-                        e--;
                     }
                 } else if(sum < targetNum) s++;
                 else if(sum > targetNum) e--;
