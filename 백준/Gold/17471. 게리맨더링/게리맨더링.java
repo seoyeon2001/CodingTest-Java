@@ -7,8 +7,7 @@ public class Main {
     static int[] people;
     static List<Integer>[] graph;
     static int answer;
-
-    static int[] parent;
+    static int totalPeople = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,7 +15,6 @@ public class Main {
         n = Integer.parseInt(br.readLine());
 
         people = new int[n+1];
-        int totalPeople = 0;
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i = 1; i <= n; i++) {
             int num = Integer.parseInt(st.nextToken());
@@ -39,152 +37,61 @@ public class Main {
 
         answer = Integer.MAX_VALUE;
 
-        // 조합 구하기
-        List<Integer> aList = new ArrayList<>();
-        for(int cnt = 1; cnt <= n / 2; cnt++) {
-            combi(aList, 1, cnt);
-        }
+        // 비트마스킹으로 모든 부분집합 탐색
+        for (int mask = 1; mask < (1 << n) - 1; mask++) {
+            boolean[] selected = new boolean[n+1];
+            int sumA = 0;
+            int countA = 0;
 
-        // 다 처리한 후에도 변하지 않으면 -1
-        if (answer == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return;
-        }
+            // A 선거구 만들기
+            for (int i = 0; i < n; i++) {
+                if ((mask & (1 << i)) != 0) {
+                    selected[i+1] = true;
+                    sumA += people[i+1];
+                    countA++;
+                }
+            }
 
-        System.out.println(answer);
-    }
+            int countB = n - countA;
 
-    // 조합 구하기
-    static void combi(List<Integer> aList, int start, int r) {
-        if(r == 0) {
-//            sol1(aList);
-            sol2(aList);
-            return;
-        }
-
-        for(int i = start; i <= n; i++) {
-            aList.add(i);
-            combi(aList, i+1, r-1);
-            aList.remove(aList.size()-1);
-        }
-    }
-
-    static void sol1(List<Integer> aList) {
-        // A구가 잘 연결되어있는지 확인
-        if(!isLinked(aList)) return;
-
-        List<Integer> bList = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            if (!aList.contains(i)) {
-                bList.add(i);
+            // 연결성 검사
+            if (isLinked(selected, true, countA) && isLinked(selected, false, countB)) {
+                int sumB = totalPeople - sumA;
+                answer = Math.min(answer, Math.abs(sumA - sumB));
             }
         }
 
-        // B구가 잘 연결되어있는지 확인
-        if(!isLinked(bList)) return;
-
-        int result = calcDiff(aList, bList);
-        answer = Math.min(answer, result);
-    }
-
-    static void sol2(List<Integer> aList) {
-        parent = new int[n+1];
-        for(int i = 1; i <= n; i++) {
-            parent[i] = i;
-        }
-
-        // aList 연결하기
-        link(aList);
-
-        // 연결이 다 됐는지
-        for (int i = 0; i < aList.size()-1; i++) {
-            if (find(aList.get(i)) != find(aList.get(i+1))) {
-                return;
-            }
-        }
-
-        List<Integer> bList = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            if (!aList.contains(i)) {
-                bList.add(i);
-            }
-        }
-
-        // bList 연결하기
-        link(bList);
-
-        // 연결이 다 됐는지
-        for (int i = 0; i < bList.size()-1; i++) {
-            if (find(bList.get(i)) != find(bList.get(i+1))) {
-                return;
-            }
-        }
-
-        int result = calcDiff(aList, bList);
-        answer = Math.min(answer, result);
-    }
-
-    static void link(List<Integer> list) {
-        for (int i : list) {
-            for (int j : graph[i]) {
-                if (list.contains(j)) union(i, j);
-            }
-        }
+        System.out.println(answer == Integer.MAX_VALUE ? -1 : answer);
     }
 
     // 선거구가 모두 연결되어있는지 확인
-    static boolean isLinked(List<Integer> list) {
+    static boolean isLinked(boolean[] selected, boolean flag, int targetCount) {
         boolean[] visited = new boolean[n+1];
         Deque<Integer> q = new ArrayDeque<>();
 
-        visited[list.get(0)] = true;
-        q.add(list.get(0));
+        // 시작점 찾기
+        for (int i = 1; i <= n; i++) {
+            if (selected[i] == flag) {
+                visited[i] = true;
+                q.add(i);
+                break;
+            }
+        }
 
         int count = 1;
         while (!q.isEmpty()) {
-            int start = q.poll();
+            int current = q.poll();
 
-            for (int i : graph[start]) {
+            for (int next : graph[current]) {
                 // 방문 이력 없고, 선거구에 해당
-                if (!visited[i] && list.contains(i)) {
-                    visited[i] = true;
-                    q.add(i);
+                if (!visited[next] && selected[next] == flag) {
+                    visited[next] = true;
+                    q.add(next);
                     count++;
                 }
             }
         }
 
-        return count == list.size() ? true : false;
-    }
-
-    static int calcDiff(List<Integer> aList, List<Integer> bList) {
-        int resultA = 0, resultB = 0;
-
-        // A 지역구 인구 계산
-        for (int i : aList) {
-            resultA += people[i];
-        }
-
-        // B 지역구 인구 계산
-        for (int i : bList) {
-            resultB += people[i];
-        }
-
-        return Math.abs(resultA - resultB);
-    }
-
-    static int find(int x) {
-        if (parent[x] == x) {
-            return x;
-        }
-        return find(parent[x]);
-    }
-
-    static void union(int x, int y) {
-        x = find(x);
-        y = find(y);
-
-        if (x < y) parent[y] = x;
-        else parent[x] = y;
+        return count == targetCount;
     }
 }
