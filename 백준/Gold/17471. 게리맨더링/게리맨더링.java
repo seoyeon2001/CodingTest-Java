@@ -73,10 +73,9 @@ public class Main {
 
         List<Integer> bList = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
-            if (aList.contains(i)) {
-                continue;
+            if (!aList.contains(i)) {
+                bList.add(i);
             }
-            bList.add(i);
         }
 
         // B구가 잘 연결되어있는지 확인
