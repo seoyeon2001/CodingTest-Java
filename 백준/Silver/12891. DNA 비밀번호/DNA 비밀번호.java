@@ -7,8 +7,9 @@ public class Main {
     static final int G = 2;
     static final int T = 3;
     
-    static int[] cnt;
-    static int[] counting;
+    static int[] cnt = new int[4];
+    static int[] counting = new int[4];
+    static int satisfied = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,29 +20,27 @@ public class Main {
 
         char[] arr = br.readLine().toCharArray();
 
-        cnt = new int[4];
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < 4; i++) {
             cnt[i] = Integer.parseInt(st.nextToken());
+            if (cnt[i] == 0) satisfied++; // 0이면 이미 만족
         }
 
         int answer = 0;
 
-        counting = new int[4];
         for(int i = 0; i < p; i++) {
-            counting[toIndex(arr[i])]++;
+            add(arr[i]);
         }
-        // System.out.println(Arrays.toString(counting));
 
-        if(canMake()) answer++;
+        if (satisfied == 4) answer++;
 
         int frontIdx = 0;
         int endIdx = p;
         while(endIdx != s) {
-            counting[toIndex(arr[frontIdx])]--;
-            counting[toIndex(arr[endIdx])]++;
+            remove(arr[frontIdx]);
+            add(arr[endIdx]);
 
-            if(canMake()) answer++;
+            if (satisfied == 4) answer++;
 
             frontIdx++;
             endIdx++;
@@ -50,17 +49,26 @@ public class Main {
         System.out.println(answer);
     }
 
+    static void add(char c) {
+        int idx = toIndex(c);
+        counting[idx]++;
+        if (counting[idx] == cnt[idx]) {
+            satisfied++;
+        }
+    }
+
+    static void remove(char c) {
+        int idx = toIndex(c);
+        if (counting[idx] == cnt[idx]) {
+            satisfied--;
+        }
+        counting[idx]--;
+    }
+
     static int toIndex(char c) {
         if (c == 'A') return A;
         else if (c == 'C') return C;
         else if (c == 'G') return G;
         else return T;
-    }
-
-    static boolean canMake() {
-        for(int i = 0; i < 4; i++) {
-            if(cnt[i] > counting[i]) return false;
-        }
-        return true;
     }
 }
