@@ -8,6 +8,8 @@ public class Main {
     static List<Integer>[] graph;
     static int answer;
 
+    static int[] parent;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -34,7 +36,6 @@ public class Main {
                 graph[i].add(Integer.parseInt(st.nextToken()));
             }
         }
-        // System.out.println("graph = " + Arrays.toString(graph));
 
         answer = Integer.MAX_VALUE;
 
@@ -56,7 +57,8 @@ public class Main {
     // 조합 구하기
     static void combi(List<Integer> aList, int start, int r) {
         if(r == 0) {
-            cal(aList);
+//            sol1(aList);
+            sol2(aList);
             return;
         }
 
@@ -67,7 +69,7 @@ public class Main {
         }
     }
 
-    static void cal(List<Integer> aList) {
+    static void sol1(List<Integer> aList) {
         // A구가 잘 연결되어있는지 확인
         if(!isLinked(aList)) return;
 
@@ -81,20 +83,53 @@ public class Main {
         // B구가 잘 연결되어있는지 확인
         if(!isLinked(bList)) return;
 
-        int resultA = 0, resultB = 0;
-
-        // A 지역구 인구 계산
-        for (int i : aList) {
-            resultA += people[i];
-        }
-
-        // B 지역구 인구 계산
-        for (int i : bList) {
-            resultB += people[i];
-        }
-
-        int result = Math.abs(resultA - resultB);
+        int result = calcDiff(aList, bList);
         answer = Math.min(answer, result);
+    }
+
+    static void sol2(List<Integer> aList) {
+        parent = new int[n+1];
+        for(int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
+
+        // aList 연결하기
+        link(aList);
+
+        // 연결이 다 됐는지
+        for (int i = 0; i < aList.size()-1; i++) {
+            if (find(aList.get(i)) != find(aList.get(i+1))) {
+                return;
+            }
+        }
+
+        List<Integer> bList = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            if (!aList.contains(i)) {
+                bList.add(i);
+            }
+        }
+
+        // bList 연결하기
+        link(bList);
+
+        // 연결이 다 됐는지
+        for (int i = 0; i < bList.size()-1; i++) {
+            if (find(bList.get(i)) != find(bList.get(i+1))) {
+                return;
+            }
+        }
+
+        int result = calcDiff(aList, bList);
+        answer = Math.min(answer, result);
+    }
+
+    static void link(List<Integer> list) {
+        for (int i : list) {
+            for (int j : graph[i]) {
+                if (list.contains(j)) union(i, j);
+            }
+        }
     }
 
     // 선거구가 모두 연결되어있는지 확인
@@ -120,5 +155,36 @@ public class Main {
         }
 
         return count == list.size() ? true : false;
+    }
+
+    static int calcDiff(List<Integer> aList, List<Integer> bList) {
+        int resultA = 0, resultB = 0;
+
+        // A 지역구 인구 계산
+        for (int i : aList) {
+            resultA += people[i];
+        }
+
+        // B 지역구 인구 계산
+        for (int i : bList) {
+            resultB += people[i];
+        }
+
+        return Math.abs(resultA - resultB);
+    }
+
+    static int find(int x) {
+        if (parent[x] == x) {
+            return x;
+        }
+        return find(parent[x]);
+    }
+
+    static void union(int x, int y) {
+        x = find(x);
+        y = find(y);
+
+        if (x < y) parent[y] = x;
+        else parent[x] = y;
     }
 }
