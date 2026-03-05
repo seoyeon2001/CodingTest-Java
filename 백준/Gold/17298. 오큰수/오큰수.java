@@ -16,21 +16,18 @@ public class Main {
 
         int[] nges = new int[n];
 
-        Stack<int[]> stack = new Stack<>();
+        Stack<Integer> stack = new Stack<>();
 
-        nges[n-1] = -1;
-        stack.push(new int[] {n-1, arr[n-1]});
-
-        for(int i = n-2; i >= 0; i--) {
-            int[] now = new int[] {i, arr[i]};
-
-            while(!stack.isEmpty() && stack.peek()[1] <= now[1]) {
-                stack.pop();
+        stack.push(0);
+        for(int i = 1; i < n; i++) {
+            while(!stack.isEmpty() && arr[stack.peek()] < arr[i]) {
+                nges[stack.pop()] = arr[i];
             }
+            stack.push(i);
+        }
 
-            nges[i] = stack.isEmpty() ? -1 : stack.peek()[1];
-
-            stack.push(now);
+        while(!stack.isEmpty()) {
+            nges[stack.pop()] = -1;
         }
 
         for(int nge : nges) {
