@@ -2,41 +2,33 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(br.readLine());
 
-        int[] arr = new int[n];
-        for(int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-        }
-
         Stack<Integer> stack = new Stack<>();
-        int curIdx = 0;
-        int number = 1;
-        while(curIdx < n) {
-            while(arr[curIdx] >= number) {
-                stack.push(number);
-                sb.append("+").append("\n");
-                number++;
+        int next = 1;
+
+        for (int i = 0; i < n; i++) {
+            int target = Integer.parseInt(br.readLine());
+
+            while (next <= target) {
+                stack.push(next++);
+                sb.append("+\n");
             }
 
-            while(!stack.isEmpty()) {
-                if(stack.peek() == arr[curIdx]) {
-                    int num = stack.pop();
-                    sb.append("-").append("\n");
-                    curIdx++;
-                } else if(stack.peek() > arr[curIdx]) {
-                    System.out.println("NO");
-                    return;
-                } else if(stack.peek() < arr[curIdx]) {
-                    break;
-                }
+            if (stack.peek() == target) {
+                stack.pop();
+                sb.append("-\n");
+            } else {
+                System.out.println("NO");
+                return;
             }
         }
 
-        System.out.println(sb);
+        System.out.print(sb);
     }
 }
