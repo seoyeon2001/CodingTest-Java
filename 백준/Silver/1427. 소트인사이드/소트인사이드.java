@@ -7,14 +7,18 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         char[] charArray = br.readLine().toCharArray();
-        Integer[] intArray = new Integer[charArray.length];
-        for(int i = 0; i < intArray.length; i++) {
-            intArray[i] = charArray[i] - '0';
+
+        int[] numArray = new int[10];
+        for(int i = 0; i < charArray.length; i++) {
+            numArray[charArray[i] - '0']++;
         }
-        Arrays.sort(intArray, (a, b) -> b - a);
-        for(int i = 0; i < intArray.length; i++) {
-            sb.append(intArray[i]);
+
+        for(int i = 9; i >= 0; i--) {
+            if(numArray[i] != 0) {
+                sb.append(String.valueOf(i).repeat(numArray[i]));
+            }
         }
+
         System.out.println(sb);
     }
 }
