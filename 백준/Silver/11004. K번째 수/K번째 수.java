@@ -19,8 +19,10 @@ public class Main {
         }
 
         // quick sorting
-        quickSortV2(0, n-1);
+//        quickSortV1(0, n-1);
+//        quickSortV2(0, n-1);
 
+        Arrays.sort(arr);
         System.out.println(arr[k-1]);
     }
 
@@ -57,6 +59,29 @@ public class Main {
         arr[j] = pivot;
 
         return j;
+    }
+
+    static void quickSortV1(int left, int right) {
+        if(left >= right) return;
+
+        int pivot = arr[(left + right) / 2];
+        int l = left;
+        int r = right;
+
+        while(l <= r) {
+            while(arr[l] < pivot) l++;
+            while(arr[r] > pivot) r--;
+
+            if(l <= r) {
+                swap(l, r);
+                l++;
+                r--;
+            }
+        }
+
+        if(k-1 <= r) quickSortV1(left, r); // pivot보다 작거나 같은 값들
+        else if(k-1 >= l) quickSortV1(l, right); // pivot보다 크거나 같은 값들
+        else return;
     }
 
     static void swap(int i, int j) {
