@@ -38,12 +38,6 @@ public class Main {
     }
 
     static int partition(int left, int right) {
-        // 데이터가 2개인 경우 바로 비교
-        if(left+1 == right) {
-            if(arr[left] > arr[right]) swap(left, right);
-            return right;
-        }
-
         int mid = (left + right) / 2;
         swap(left, mid);
         int pivot = arr[left];
