@@ -3,13 +3,14 @@ import java.util.*;
 
 public class Main {
     static int[] arr;
-
+    static int k;
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
         arr = new int[n];
         st = new StringTokenizer(br.readLine());
@@ -44,7 +45,8 @@ public class Main {
             }
         }
 
-        sort(left, r);
-        sort(l, right);
+        if(k-1 <= r) sort(left, r);
+        else if(k-1 >= l) sort(l, right);
+        else return;
     }
 }
