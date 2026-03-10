@@ -5,6 +5,8 @@ public class Main {
     static int n;
     static int[] arr;
 
+    static int[] temp;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -15,7 +17,8 @@ public class Main {
             arr[i] = Integer.parseInt(br.readLine());
         }
 
-        quick(0, n-1);
+        temp = new int[n];
+        mergeSort(0, n-1);
 
         // 출력
         for(int i = 0; i < n; i++) {
@@ -23,29 +26,41 @@ public class Main {
         }
     }
 
-    // 퀵 정렬 O(nlogn)
-    static void quick(int left, int right) {
+    // 병합 정렬 O(nlogn)
+    static void mergeSort(int left, int right) {
         if(left >= right) return;
 
-        int pivot = arr[(left + right) / 2];
+        int mid = (left + right) / 2;
+
+        mergeSort(left, mid);
+        mergeSort(mid + 1, right);
+
+        merge(left, mid, right);
+    }
+
+    static void merge(int left, int mid, int right) {
         int l = left;
-        int r = right;
+        int r = mid + 1;
+        int idx = left;
 
-        while(l <= r) {
-            while(arr[l] < pivot) l++;
-            while(arr[r] > pivot) r--;
-
-            if(l <= r) {
-                int temp = arr[l];
-                arr[l] = arr[r];
-                arr[r] = temp;
-
-                l++;
-                r--;
+        while(l <= mid && r <= right) {
+            if(arr[l] <= arr[r]) {
+                temp[idx++] = arr[l++];
+            } else {
+                temp[idx++] = arr[r++];
             }
         }
 
-        quick(left, r);
-        quick(l, right);
+        while(l <= mid) {
+            temp[idx++] = arr[l++];
+        }
+
+        while(r <= right) {
+            temp[idx++] = arr[r++];
+        }
+
+        for(int i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
     }
 }
