@@ -27,17 +27,12 @@ public class Main {
     static void insertion() {
         for(int i = 1; i < n; i++) {
             int num = arr[i];
-            for(int j = 0; j < i; j++) {
-                if(arr[j] > num) {
-                    // shift
-                    for(int k = i; k > j; k--) {
-                        arr[k] = arr[k-1];
-                    }
-                    arr[j] = num;
-                    break;
-                }
+            int j = i-1;
+            while(j >= 0 && arr[j] > num) {
+                arr[j+1] = arr[j]; // shift
+                j--;
             }
-
+            arr[j+1] = num;
         }
     }
 }
