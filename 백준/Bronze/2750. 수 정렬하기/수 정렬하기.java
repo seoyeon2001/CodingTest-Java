@@ -14,25 +14,29 @@ public class Main {
         for(int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(br.readLine());
         }
-        bubble();
-        
+
+        select();
+
+        // 출력
         for(int i = 0; i < n; i++) {
             System.out.println(arr[i]);
         }
-
     }
-
-    // 버블 정렬
-    static void bubble() {
-        for(int end = n-1; end >= 1; end--) {
-            for(int i = 0; i < end; i++) {
-                if(arr[i] > arr[i+1]) {
-                    int temp = arr[i];
-                    arr[i] = arr[i+1];
-                    arr[i+1] = temp;
+    // 선택 정렬 O(n^2)
+    static void select() {
+        for(int start = 0; start < n-1; start++) {
+            int min = Integer.MAX_VALUE;
+            int minIdx = -1;
+            for(int i = start; i < n; i++) {
+                if(arr[i] < min) {
+                    min = arr[i];
+                    minIdx = i;
                 }
             }
-        }
 
+            int temp = arr[start];
+            arr[start] = arr[minIdx];
+            arr[minIdx] = temp;
+        }
     }
 }
