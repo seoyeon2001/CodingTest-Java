@@ -15,7 +15,7 @@ public class Main {
             arr[i] = Integer.parseInt(br.readLine());
         }
 
-        insertion();
+        quick(0, n-1);
 
         // 출력
         for(int i = 0; i < n; i++) {
@@ -23,16 +23,29 @@ public class Main {
         }
     }
 
-    // 삽입 정렬 O(n^2)
-    static void insertion() {
-        for(int i = 1; i < n; i++) {
-            int num = arr[i];
-            int j = i-1;
-            while(j >= 0 && arr[j] > num) {
-                arr[j+1] = arr[j]; // shift
-                j--;
+    // 퀵 정렬 O(nlogn)
+    static void quick(int left, int right) {
+        if(left >= right) return;
+
+        int pivot = arr[(left + right) / 2];
+        int l = left;
+        int r = right;
+
+        while(l <= r) {
+            while(arr[l] < pivot) l++;
+            while(arr[r] > pivot) r--;
+
+            if(l <= r) {
+                int temp = arr[l];
+                arr[l] = arr[r];
+                arr[r] = temp;
+
+                l++;
+                r--;
             }
-            arr[j+1] = num;
         }
+
+        quick(left, r);
+        quick(l, right);
     }
 }
