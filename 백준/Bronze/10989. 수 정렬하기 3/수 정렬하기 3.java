@@ -8,17 +8,19 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        // 방법 1 - 내장 함수 사용
-        int[] arr = new int[n];
+        int[] cnt = new int[10001];
         for(int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
+            cnt[Integer.parseInt(br.readLine())]++;
         }
 
-        Arrays.sort(arr);
-
         // 출력
-        for(int i = 0; i < n; i++) {
-            sb.append(arr[i]).append("\n");
+        for(int i = 1; i < 10001; i++) {
+            if(cnt[i] != 0) {
+                while(cnt[i] > 0) {
+                    sb.append(i).append("\n");
+                    cnt[i]--;
+                }
+            }
         }
         System.out.println(sb);
     }
