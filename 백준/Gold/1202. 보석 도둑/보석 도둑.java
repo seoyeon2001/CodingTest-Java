@@ -1,0 +1,53 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken()); // 보석 개수
+        int k = Integer.parseInt(st.nextToken()); // 가방 개수
+
+        List<int[]> jewelry = new ArrayList<>();
+        for(int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            int m = Integer.parseInt(st.nextToken()); // 무게
+            int v = Integer.parseInt(st.nextToken()); // 가격
+
+            jewelry.add(new int[] {m, v});
+        }
+        Collections.sort(jewelry, (a, b) -> a[0] - b[0]); // 가벼운 순서대로
+
+        List<Integer> bags = new ArrayList<>();
+        for(int i = 0; i < k; i++) {
+            st = new StringTokenizer(br.readLine());
+            int c = Integer.parseInt(st.nextToken()); // 무게
+
+            bags.add(c);
+        }
+        Collections.sort(bags); // 가벼운 순서대로
+
+        long answer = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+        int idx = 0;
+        for(int i = 0; i < k; i++) {
+            // 남은 보석이 없다면
+            if(jewelry.isEmpty()) break;
+
+            while(idx < n) {
+                // 보석이 가방보다 무거울 때
+                if(jewelry.get(idx)[0] > bags.get(i)) break;
+
+                pq.add(jewelry.get(idx));
+                idx++;
+            }
+
+            if(!pq.isEmpty()) {
+                answer += pq.poll()[1];
+            }
+        }
+        System.out.println(answer);
+    }
+}
