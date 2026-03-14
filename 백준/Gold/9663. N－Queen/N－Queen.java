@@ -1,60 +1,49 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
     static int answer;
     static int n;
 
-    static boolean[] col; // 같은 열
-    static boolean[] diag1; // ↙ 대각선 (r + c)
-    static boolean[] diag2; // ↘ 대각선 (r - c + n)
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         n = Integer.parseInt(br.readLine());
-        col = new boolean[n];
-        diag1 = new boolean[2 * n];
-        diag2 = new boolean[2 * n];
 
         answer = 0;
 
-        // 0행 시작
-        calc(0);
-        
+        calc(0, 0, 0, 0);
+
         System.out.println(answer);
     }
 
-    static void calc(int r) {
-        if(r == n) {
+    // 비트 연산
+    static void calc(int row, int col, int diag1, int diag2) {
+        if(row == n) {
             answer++;
             return;
         }
 
-        for(int i = 0; i < n; i++) {
-            if(!isAttack(r, i)) { // (r행, i열)에 두어도 공격당하지 않는다면
-                col[i] = true;
-                diag1[r + i] = true;
-                diag2[r - i + n] = true;
+        // 공격 받는 위치를 1로 표현
+        int attackPlace = (col | diag1 | diag2);
 
-                calc(r+1);
+        // 놓을 수 있는 자리를 1로 표현
+        // ((1 << n) - 1): 11...11 (1 n개)
+        int available = ((1 << n) - 1) & ~attackPlace;
 
-                col[i] = false;
-                diag1[r + i] = false;
-                diag2[r - i + n] = false;
+        while (available != 0) {
+            int bit = available & -available; // 가능한 자리 중 오른쪽부터 뽑음
+            available -= bit; // 확인해본 거는 제거
 
-            }
+            // 대각선 이동
+            /**
+             * diag1: 왼쪽 대각선 ↘
+             * 아래로 내려가면 공격 위치가 오른쪽으로 한 칸 이동함
+             * diag2: 오른쪽 대각선 ↙
+             * 아래로 내려가면 공격 위치가 왼쪽으로 한 칸 이동함
+             */
+            calc(row+1, col | bit, (diag1 | bit) << 1, (diag2 | bit) >> 1);
         }
     }
-
-    static boolean isAttack(int r, int c) {
-        // 열 체크
-        if(col[c]) return true;
-
-        // 대각선 체크
-        if(diag1[r + c] || diag2[r - c + n]) return true;
-        
-        return false;
-    }
-
 }
