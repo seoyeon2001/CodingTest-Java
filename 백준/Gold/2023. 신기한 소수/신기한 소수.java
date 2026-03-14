@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static StringBuilder sb;
+    static String number = "";
+    static int n;
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        sb = new StringBuilder();
+        n = Integer.parseInt(br.readLine());
+
+        dfs(0, number);
+        
+        System.out.println(sb);
+    }
+
+    static void dfs(int jarisu, String number) {
+        if(jarisu == n) {
+            if(isPrime(Integer.parseInt(number))) {
+                sb.append(number).append("\n");
+            }
+            return;
+        }
+
+        for(int i = 1; i <= 9; i++) {
+            number += String.valueOf(i);
+            if(isPrime(Integer.parseInt(number))) {
+                dfs(jarisu+1, number);
+            }
+            
+            number = number.substring(0, number.length()-1);
+        }
+    }
+    
+    static boolean isPrime(int num) {
+        if(num == 1) return false;
+
+        for(int div = 2; div <= Math.sqrt(num); div++) {
+            if(num % div == 0) return false;
+        }
+        return true;
+    }
+}
