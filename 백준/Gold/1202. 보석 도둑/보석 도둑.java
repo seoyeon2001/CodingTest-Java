@@ -33,10 +33,7 @@ public class Main {
         PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
         int idx = 0;
         for(int i = 0; i < k; i++) {
-            while(idx < n) {
-                // 보석이 가방보다 무거울 때
-                if(jewelry.get(idx)[0] > bags.get(i)) break;
-
+            while(idx < n && jewelry.get(idx)[0] <= bags.get(i)) {
                 pq.add(jewelry.get(idx)[1]);
                 idx++;
             }
