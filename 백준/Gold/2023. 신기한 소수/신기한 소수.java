@@ -28,7 +28,7 @@ public class Main {
             return;
         }
 
-        for(int i = 1; i <= 9; i++) {
+        for(int i = 1; i <= 9; i+=2) {
             number += String.valueOf(i);
             if(isPrime(Integer.parseInt(number))) {
                 dfs(jarisu+1, number);
