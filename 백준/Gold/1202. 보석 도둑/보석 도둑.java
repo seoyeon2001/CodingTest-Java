@@ -33,9 +33,6 @@ public class Main {
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[1] - a[1]);
         int idx = 0;
         for(int i = 0; i < k; i++) {
-            // 남은 보석이 없다면
-            if(jewelry.isEmpty()) break;
-
             while(idx < n) {
                 // 보석이 가방보다 무거울 때
                 if(jewelry.get(idx)[0] > bags.get(i)) break;
