@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
     static StringBuilder sb;
-    static String number = "";
+//    static String number = "";
     static int n;
     
     public static void main(String[] args) throws IOException {
@@ -11,7 +11,11 @@ public class Main {
         sb = new StringBuilder();
         n = Integer.parseInt(br.readLine());
 
-        dfs(0, number);
+//        dfs(0, number);
+        dfs(1, "2");
+        dfs(1, "3");
+        dfs(1, "5");
+        dfs(1, "7");
         
         System.out.println(sb);
     }
