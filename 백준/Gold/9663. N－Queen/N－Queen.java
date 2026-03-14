@@ -14,16 +14,15 @@ public class Main {
 
         answer = 0;
         for(int c = 0; c < n; c++) { // 0행 c열
-
             arr[0] = c;
-            calc(0, c, 1); // 시작점
+            calc(0); // 시작점
         }
 
         System.out.println(answer);
     }
 
-    static void calc(int r, int c, int cnt) {
-        if(cnt == n) {
+    static void calc(int r) {
+        if(r == n-1) {
             answer++;
             return;
         }
@@ -31,7 +30,7 @@ public class Main {
         for(int i = 0; i < n; i++) {
             if(!isAttack(r+1, i)) { // (r+1행, i열)에 두어도 공격당하지 않는다면
                 arr[r+1] = i;
-                calc(r+1, i, cnt+1);
+                calc(r+1);
             }
         }
     }
