@@ -30,19 +30,19 @@ public class Main {
         Collections.sort(bags); // 가벼운 순서대로
 
         long answer = 0;
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> b[1] - a[1]);
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
         int idx = 0;
         for(int i = 0; i < k; i++) {
             while(idx < n) {
                 // 보석이 가방보다 무거울 때
                 if(jewelry.get(idx)[0] > bags.get(i)) break;
 
-                pq.add(jewelry.get(idx));
+                pq.add(jewelry.get(idx)[1]);
                 idx++;
             }
 
             if(!pq.isEmpty()) {
-                answer += pq.poll()[1];
+                answer += pq.poll();
             }
         }
         System.out.println(answer);
