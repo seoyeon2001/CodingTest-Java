@@ -55,7 +55,7 @@ public class Main {
                 attach(r, c, size, 0);
                 cnt[size]--;
 
-                dfs(r, c+1, total+1);
+                dfs(r, c+size, total+1);
 
                 attach(r, c, size, 1);
                 cnt[size]++;
