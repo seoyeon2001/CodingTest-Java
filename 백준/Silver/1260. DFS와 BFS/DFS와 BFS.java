@@ -7,11 +7,6 @@ public class Main {
     static boolean[] dfsVisited;
     static boolean[] bfsVisited;
 
-    static Deque<Integer> dfsQueue = new ArrayDeque<>();
-    static Deque<Integer> bfsQueue = new ArrayDeque<>();
-
-    static Deque<Integer> q = new ArrayDeque<>();
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -41,21 +36,15 @@ public class Main {
 
         dfsVisited = new boolean[n+1];
         dfs(v);
-        while(!dfsQueue.isEmpty()) {
-            System.out.print(dfsQueue.poll() + " ");
-        }
 
         System.out.println();
 
         bfsVisited = new boolean[n+1];
         bfs(v);
-        while(!bfsQueue.isEmpty()) {
-            System.out.print(bfsQueue.poll() + " ");
-        }
     }
 
     static void dfs(int num) {
-        dfsQueue.add(num);
+        System.out.print(num + " ");
         dfsVisited[num] = true;
 
         for(int next : list[num]) {
@@ -66,13 +55,14 @@ public class Main {
     }
 
     static void bfs(int num) {
-
+        Deque<Integer> q = new ArrayDeque<>();
+        
         bfsVisited[num] = true;
         q.add(num);
 
         while(!q.isEmpty()) {
             int cur = q.poll();
-            bfsQueue.add(cur);
+            System.out.print(cur + " ");
 
             for(int next : list[cur]) {
                 if(!bfsVisited[next]) {
