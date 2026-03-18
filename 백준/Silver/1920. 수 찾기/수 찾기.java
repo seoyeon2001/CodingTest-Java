@@ -4,28 +4,27 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder("");
 
         int n = Integer.parseInt(br.readLine());
 
-        Set<Integer> set = new HashSet<>();
+        int[] arr = new int[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++) {
-           set.add(Integer.parseInt(st.nextToken()));
+            arr[i] = Integer.parseInt(st.nextToken());
         }
+
+        Arrays.sort(arr); // 1 2 3 4 5
 
         int m = Integer.parseInt(br.readLine());
 
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < m; i++) {
             int target = Integer.parseInt(st.nextToken());
+            boolean find = false;
 
-            if(set.contains(target)) {
-                sb.append(1).append("\n");
-            } else {
-                sb.append(0).append("\n");
-            }
+            find = Arrays.binarySearch(arr, target) >= 0;
+
+            System.out.println(find ? 1 : 0);
         }
-        System.out.println(sb);
     }
 }
