@@ -28,7 +28,7 @@ public class Main {
             int mid = (start + end) / 2;
 
             int sum = 0;
-            int cnt = 0;
+            int cnt = 1;
 
             for(int i = 0; i < n; i++) {
                 if(sum + arr[i] > mid) {
@@ -37,7 +37,6 @@ public class Main {
                 }
                 sum += arr[i];
             }
-            if(sum != 0) cnt++;
 
             if(cnt > m) {
                 start = mid + 1;
