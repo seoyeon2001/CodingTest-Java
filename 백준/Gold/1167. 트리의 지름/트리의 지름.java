@@ -37,12 +37,10 @@ public class Main {
         visited = new boolean[n+1];
         bfs(1);
 
-        int max = 0;
-        int nextNodeIdx = -1;
+        int nextNodeIdx = 1;
         for(int i = 2; i <= n; i++) {
-            if(answer[i] > max) {
+            if(answer[i] > answer[nextNodeIdx]) {
                 nextNodeIdx = i;
-                max = answer[i];
             }
         }
 
@@ -50,14 +48,8 @@ public class Main {
         visited = new boolean[n+1];
         bfs(nextNodeIdx);
 
-        max = 0;
-        for(int i = 1; i <= n; i++) {
-            if(answer[i] > max) {
-                max = answer[i];
-            }
-        }
-        System.out.println(max);
-
+        Arrays.sort(answer);
+        System.out.println(answer[n]);
     }
 
     static void bfs(int n) {
