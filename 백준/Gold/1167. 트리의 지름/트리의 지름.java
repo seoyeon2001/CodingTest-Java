@@ -3,8 +3,9 @@ import java.util.*;
 
 public class Main {
     static int n;
-    static int[] answer;
     static List<int[]>[] list;
+    static int[] answer;
+    static Deque<Integer> q;
     static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
@@ -22,6 +23,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
 
             int v = Integer.parseInt(st.nextToken());
+
             while(true) {
                 int num = Integer.parseInt(st.nextToken());
                 if(num == -1) break;
@@ -32,39 +34,51 @@ public class Main {
         }
 
         answer = new int[n+1];
+        visited = new boolean[n+1];
         bfs(1);
 
-        int max = 1;
+        int max = 0;
+        int nextNodeIdx = -1;
         for(int i = 2; i <= n; i++) {
-            if(answer[max] < answer[i]) {
-                max = i;
+            if(answer[i] > max) {
+                nextNodeIdx = i;
+                max = answer[i];
             }
         }
 
         answer = new int[n+1];
-        bfs(max);
+        visited = new boolean[n+1];
+        bfs(nextNodeIdx);
 
-        Arrays.sort(answer);
-        System.out.println(answer[n]);
+        max = 0;
+        for(int i = 1; i <= n; i++) {
+            if(answer[i] > max) {
+                max = answer[i];
+            }
+        }
+        System.out.println(max);
+
     }
 
-    static void bfs(int start) {
-        Deque<Integer> q = new ArrayDeque<>();
-        visited = new boolean[n+1];
+    static void bfs(int n) {
+        q = new ArrayDeque<>();
 
-        q.add(start);
-        visited[start] = true;
+        q.add(n);
+        visited[n] = true;
+        answer[n] = 0;
 
         while(!q.isEmpty()) {
             int cur = q.poll();
 
-            for(int[] next :list[cur]) {
+            for(int[] next : list[cur]) {
                 if(!visited[next[0]]) {
-                    visited[next[0]] = true;
                     q.add(next[0]);
-                    answer[next[0]] = answer[cur] + next[1];
+                    visited[next[0]] = true;
+                    answer[next[0]] = next[1] + answer[cur];
                 }
             }
         }
+
     }
+
 }
