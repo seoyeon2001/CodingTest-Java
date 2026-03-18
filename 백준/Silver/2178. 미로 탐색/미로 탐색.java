@@ -20,24 +20,13 @@ public class Main {
             }
         }
 
-//        System.out.println(Arrays.deepToString(arr));
-
-        int answer = Integer.MAX_VALUE;
-
-        boolean[][] visited = new boolean[n][m];
         Deque<int[]> q = new ArrayDeque<>();
-
-        visited[0][0] = true;
-        q.add(new int[] {0, 0, 1});
+        q.add(new int[] {0, 0});
 
         while(!q.isEmpty()) {
             int[] cur = q.poll();
 
-            int cr = cur[0], cc = cur[1], cnt = cur[2];
-
-            if(cr == n-1 && cc == m-1) {
-                answer = Math.min(answer, cnt);
-            }
+            int cr = cur[0], cc = cur[1];
 
             for(int i = 0; i < 4; i++) {
                 int nr = cr + dr[i];
@@ -45,13 +34,13 @@ public class Main {
 
                 if(nr < 0 || nr >= n || nc < 0 || nc >= m) continue;
 
-                if(arr[nr][nc] == 0 || visited[nr][nc]) continue;
-
-                visited[nr][nc] = true;
-                q.add(new int[] {nr, nc, cnt+1});
+                if(arr[nr][nc] == 1) {
+                    arr[nr][nc] = arr[cr][cc] + 1;
+                    q.add(new int[] {nr, nc});
+                }
             }
         }
 
-        System.out.println(answer);
+        System.out.println(arr[n-1][m-1]);
     }
 }
