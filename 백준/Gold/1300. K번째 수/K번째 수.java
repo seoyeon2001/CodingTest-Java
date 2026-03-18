@@ -4,28 +4,31 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        int K = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        int k = Integer.parseInt(br.readLine());
 
-        long left = 1;
-        long right = K;
+        int left = 1;
+        int right = k;
 
-        while(left < right) {
-            long mid = (left + right) / 2;
-            long count = 0;
+        int answer = 0;
+        while(left <= right) {
+            int mid = (left + right) / 2;
 
-            for(int i = 1; i <= N; i++) {
-                count += Math.min(mid / i, N);
+            int cnt = 0;
+            // mid 이하 값의 개수 구하기
+            for(int i = 1; i <= n; i++) {
+                cnt += Math.min(n, mid / i);
             }
 
-            if(K <= count) { // mid보다 작은 수가 B[K]보다 많음
-                right = mid;
-            }
-            else {
+//            System.out.println(mid + "이하의 값의 개수는 = " + cnt);
+
+            if(cnt >= k) {
+                right = mid - 1;
+                answer = mid;
+            } else {
                 left = mid + 1;
             }
         }
-
-        System.out.println(left);
+        System.out.println(answer);
     }
 }
