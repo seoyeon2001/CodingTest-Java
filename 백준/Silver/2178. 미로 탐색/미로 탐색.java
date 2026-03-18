@@ -2,79 +2,56 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int result;
-    static int[][] arr;
-    static int N;
-    static int M;
-    static Deque<Point> q = new ArrayDeque<>();
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
 
-        arr = new int[N][M];
-        for (int i = 0; i < N; i++) {
-            String s = br.readLine();
-            for (int j = 0; j < s.length(); j++) {
-                arr[i][j] = s.charAt(j) - '0';
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+
+        int[][] arr = new int[n][m];
+        for(int i = 0; i < n; i++) {
+            String[] tmp = br.readLine().split("");
+            for(int j = 0; j < m; j++) {
+                arr[i][j] = Integer.parseInt(tmp[j]);
             }
         }
+
 //        System.out.println(Arrays.deepToString(arr));
-        br.close(); // 입력 끝
 
-        int[][] visited = new int[N][M];
-//        System.out.println(Arrays.deepToString(visited));
+        int answer = Integer.MAX_VALUE;
 
-        result = bfs(0, 0, visited);
+        boolean[][] visited = new boolean[n][m];
+        Deque<int[]> q = new ArrayDeque<>();
 
-        System.out.println(result);
-    }
+        visited[0][0] = true;
+        q.add(new int[] {0, 0, 1});
 
-    static int bfs(int x, int y, int[][] visited) {
+        while(!q.isEmpty()) {
+            int[] cur = q.poll();
 
-        q.add(new Point(x, y, 1));
-        visited[x][y] = 1;
+            int cr = cur[0], cc = cur[1], cnt = cur[2];
 
-        int result = Integer.MAX_VALUE;
-        while (!q.isEmpty()) {
-            Point p = q.poll();
-            int cnt = p.cnt;
-//            System.out.println(p.x + " " + p.y + " " + p.cnt);
-
-            if (p.x == N - 1 && p.y == M - 1) {
-                result = Math.min(result, p.cnt);
+            if(cr == n-1 && cc == m-1) {
+                answer = Math.min(answer, cnt);
             }
 
-            for (int i = 0; i < 4; i++) {
-                int nx = p.x + dx[i];
-                int ny = p.y + dy[i];
+            for(int i = 0; i < 4; i++) {
+                int nr = cr + dr[i];
+                int nc = cc + dc[i];
 
-                // 범위를 벗어나지 않는다면
-                if(0 <= nx  && nx < N && 0 <= ny && ny < M) {
-                    // 방문 전이고 갈 수 있는 길이면
-                    if (visited[nx][ny] == 0 && arr[nx][ny] == 1) {
-                        visited[nx][ny] = 1;
-                        q.add(new Point(nx, ny, cnt + 1));
-                    }
-                }
+                if(nr < 0 || nr >= n || nc < 0 || nc >= m) continue;
+
+                if(arr[nr][nc] == 0 || visited[nr][nc]) continue;
+
+                visited[nr][nc] = true;
+                q.add(new int[] {nr, nc, cnt+1});
             }
         }
-        return result;
-    }
-}
 
-class Point {
-    int x, y;
-    int cnt;
-
-    Point(int x, int y, int cnt) {
-        this.x = x;
-        this.y = y;
-        this.cnt = cnt;
+        System.out.println(answer);
     }
 }
