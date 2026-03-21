@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
     static List<Integer>[] list;
 
     public static void main(String[] args) throws IOException {
@@ -11,6 +10,7 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
+        // 자식을 저장
         list = new ArrayList[n];
         for(int i = 0; i < n; i++) {
             list[i] = new ArrayList<>();
@@ -21,12 +21,13 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++) {
-            parent[i] = Integer.parseInt(st.nextToken());
+            int parentNode = Integer.parseInt(st.nextToken());
+            parent[i] = parentNode;
 
-            if(parent[i] == -1) {
+            if(parentNode == -1) {
                 rootNode = i;
             } else {
-                list[parent[i]].add(i);
+                list[parentNode].add(i);
             }
         }
 
@@ -38,7 +39,7 @@ public class Main {
 
         int p = parent[removeNode];
         list[p].remove(Integer.valueOf(removeNode));
-        
+
         int answer = dfs(rootNode);
         System.out.println(answer);
     }
@@ -50,7 +51,7 @@ public class Main {
         for(int next : list[node]) {
             cnt += dfs(next);
         }
-        
+
         return cnt;
     }
 }
