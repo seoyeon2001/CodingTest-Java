@@ -31,8 +31,6 @@ public class Main {
         
         int[] answer = new int[n+1];
         Arrays.fill(answer, Integer.MAX_VALUE);
-
-        boolean[] visited = new boolean[n+1];
         
         answer[start] = 0;
         q.add(new int[] {start, 0});
@@ -40,9 +38,8 @@ public class Main {
         while(!q.isEmpty()) {
             int[] cur = q.poll();
             
-            if(visited[cur[0]]) continue;
+            if(cur[1] > answer[cur[0]]) continue;
             
-            visited[cur[0]] = true;
             for(int[] next : list[cur[0]]) {
                 if(answer[next[0]] > answer[cur[0]] + next[1]) {
                     answer[next[0]] = answer[cur[0]] + next[1];
