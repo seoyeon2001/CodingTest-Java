@@ -29,35 +29,23 @@ public class Main {
         int[] answer = new int[V+1];
         Arrays.fill(answer, Integer.MAX_VALUE);
 
-        Deque<Integer> q = new ArrayDeque<>();
+        PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 
         // 시작
-        visited[K] = true;
         answer[K] = 0;
-        q.add(K);
+        q.add(new int[] {K, 0});
 
         while(!q.isEmpty()) {
-            int cur = q.poll();
+            int[] cur = q.poll();
 
-            for(int[] next : list[cur]) {
-                answer[next[0]] = Math.min(answer[next[0]], answer[cur] + next[1]);
-            }
-//            System.out.println(cur + " answer = " + Arrays.toString(answer));
+            if(visited[cur[0]]) continue;
 
-            int min = Integer.MAX_VALUE;
-            int idx = -1;
-            for(int i = 1; i <= V; i++) {
-                if(!visited[i]) {
-                    if(answer[i] < min) {
-                        min = answer[i];
-                        idx = i;
-                    }
+            visited[cur[0]] = true;
+            for(int[] next : list[cur[0]]) {
+                if(answer[next[0]] > answer[cur[0]] + next[1]) {
+                    answer[next[0]] = answer[cur[0]] + next[1];
+                    q.add(new int[] {next[0], answer[next[0]]});
                 }
-            }
-            
-            if(idx != -1) {
-                visited[idx] = true;
-                q.add(idx);
             }
         }
 
