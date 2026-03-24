@@ -6,28 +6,19 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String[] inputs = br.readLine().split("-");
-//        System.out.println(Arrays.toString(inputs));
+//        System.out.println("inputs = " + Arrays.toString(inputs));
 
-        int[] result = new int[inputs.length];
-        for(int i = 0; i < inputs.length; i++) {
+        int answer = 0;
+        for(int j = 0; j < inputs.length; j++) {
+            String[] nums = inputs[j].split("\\+");
+//            System.out.println("nums = " + Arrays.toString(nums));
 
-            if (inputs[i].contains("+")) {
-                StringTokenizer st = new StringTokenizer(inputs[i], "+"); // \\+
-
-                int tmp = 0;
-                while(st.hasMoreTokens()) {
-                    tmp += Integer.parseInt(st.nextToken());
-                }
-
-                result[i] = tmp;
-            } else {
-                result[i] = Integer.parseInt(inputs[i]);
+            int sum = 0;
+            for(int i = 0; i < nums.length; i++) {
+                sum += Integer.parseInt(nums[i]);
             }
-        }
-
-        int answer = result[0];
-        for (int i = 1; i < result.length; i++) {
-            answer -= result[i];
+            if(j == 0) answer += sum;
+            else answer -= sum;
         }
 
         System.out.println(answer);
