@@ -62,7 +62,7 @@ public class Main {
             if(answer[i].size() != k) {
                 System.out.println(-1);
             } else {
-                System.out.println(answer[i].poll());
+                System.out.println(answer[i].peek());
             }
         }
 
