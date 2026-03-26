@@ -11,8 +11,8 @@ public class Main {
 
         boolean[] nums = new boolean[(int) (max - min + 1)];
 
-        for(long i = 2; i <= Math.sqrt(max); i++) {
-            long num = i * i;
+        for(int i = 2; i <= Math.sqrt(max); i++) {
+            long num = (long) i * i;
 
             for(long j = min / num; j <= max / num ; j++) {
                 if(num*j-min < 0) continue;
