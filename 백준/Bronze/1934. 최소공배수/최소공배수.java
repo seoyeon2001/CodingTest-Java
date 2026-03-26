@@ -15,10 +15,7 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
 
             // 최대공약수 GCD 구하기
-            int gcd = 1;
-            if(a > b) gcd = gcd(a, b);
-            else if(a < b) gcd = gcd(b, a);
-            else gcd = a;
+            int gcd = gcd(a, b);
 
             sb.append(a*b / gcd).append("\n");
         }
