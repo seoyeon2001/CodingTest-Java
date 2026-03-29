@@ -28,18 +28,14 @@ public class Main {
 //        System.out.println("min = " + Arrays.deepToString(min));
 
         for(int i = 1; i < n; i++) {
-            for(int j = 0; j < 3; j++) {
-                if(j == 0) {
-                    max[i][j] = arr[i][j] + Math.max(max[i-1][j], max[i-1][j+1]);
-                    min[i][j] = arr[i][j] + Math.min(min[i-1][j], min[i-1][j+1]);
-                } else if(j == 1) {
-                    max[i][j] = arr[i][j] + Math.max(max[i-1][j-1], Math.max(max[i-1][j], max[i-1][j+1]));
-                    min[i][j] = arr[i][j] + Math.min(min[i-1][j-1], Math.min(min[i-1][j], min[i-1][j+1]));
-                } else {
-                    max[i][j] = arr[i][j] + Math.max(max[i-1][j-1], max[i-1][j]);
-                    min[i][j] = arr[i][j] + Math.min(min[i-1][j-1], min[i-1][j]);
-                }
-            }
+            max[i][0] = arr[i][0] + Math.max(max[i-1][0], max[i-1][1]);
+            min[i][0] = arr[i][0] + Math.min(min[i-1][0], min[i-1][1]);
+
+            max[i][1] = arr[i][1] + Math.max(max[i-1][0], Math.max(max[i-1][1], max[i-1][2]));
+            min[i][1] = arr[i][1] + Math.min(min[i-1][0], Math.min(min[i-1][1], min[i-1][2]));
+
+            max[i][2] = arr[i][2] + Math.max(max[i-1][1], max[i-1][2]);
+            min[i][2] = arr[i][2] + Math.min(min[i-1][1], min[i-1][2]);
 //            System.out.println("max = " + Arrays.deepToString(max));
 //            System.out.println("min = " + Arrays.deepToString(min));
         }
