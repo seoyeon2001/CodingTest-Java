@@ -29,28 +29,29 @@ public class Main {
         int[] answer = new int[n+1];
         Arrays.fill(answer, Integer.MAX_VALUE);
 
-        Deque<int[]> q = new ArrayDeque<>();
+        Deque<Integer> q = new ArrayDeque<>();
 
         answer[x] = 0;
-        q.add(new int[] {x, 0});
+        q.add(x);
 
         while(!q.isEmpty()) {
-            int[] cur = q.poll();
+            int cur = q.poll();
 
-            for(int next : list[cur[0]]) {
-                if(answer[next] < cur[1]+1) continue;
+            for(int next : list[cur]) {
+                if(answer[next] < answer[cur]+1) continue;
 
-                q.add(new int[] {next, cur[1]+1});
-                answer[next] = cur[1] + 1;
+                answer[next] = answer[cur] + 1;
+                q.add(next);
             }
         }
+
+//        System.out.println(Arrays.toString(answer));
 
         for(int i = 1; i <= n; i++) {
             if(answer[i] == k) sb.append(i).append("\n");
         }
-        
+
         if(sb.length() == 0) System.out.println(-1);
         else System.out.println(sb);
-
     }
 }
