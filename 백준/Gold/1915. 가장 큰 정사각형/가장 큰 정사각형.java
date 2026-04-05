@@ -25,32 +25,30 @@ public class Main {
             return;
         }
 
-        // 누적합 구하기
-        int[][] dp = new int[n+1][m+1];
+        int[][] dp = new int[n][m];
+        for(int i = 0; i < m; i++) {
+            dp[0][i] = arr[0][i];
+        }
 
-        for(int i = 1; i <= n; i++) {
-            for(int j = 1; j <= m; j++) {
-                dp[i][j] = dp[i-1][j] + dp[i][j-1] - dp[i-1][j-1] + arr[i-1][j-1];
+        for(int i = 0; i < n; i++) {
+            dp[i][0] = arr[i][0];
+        }
+
+        for(int i = 1; i < n; i++) {
+            for(int j = 1; j < m; j++) {
+    //            System.out.println("왼 = " + dp[i][j-1] + " 위 = " + dp[i-1][j] + " 대 = " + dp[i-1][j-1]);
+                if(arr[i][j] == 0) continue;
+                
+                dp[i][j] = Math.min(dp[i-1][j-1], Math.min(dp[i][j-1], dp[i-1][j])) + 1;
             }
         }
 
-//        System.out.println("dp = " + Arrays.deepToString(dp));
-
-        int max = n > m ? n : m;
         int answer = 1;
-
-        int size = 2;
-        while(size <= max) {
-            for(int i = size; i <= n; i++) {
-                for(int j = size; j <= m; j++) {
-                    int cnt = dp[i][j] - dp[i-size][j] - dp[i][j-size] + dp[i-size][j-size];
-//                    System.out.println("cnt = " + cnt);
-                    if(cnt == size*size) answer = Math.max(answer, cnt);
-                }
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                answer = Math.max(answer, dp[i][j]);
             }
-            size++;
         }
-
-        System.out.println(answer);
+        System.out.println(answer*answer);
     }
 }
