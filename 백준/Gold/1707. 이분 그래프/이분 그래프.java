@@ -40,7 +40,8 @@ public class Main {
 
             for(int i = 1; i <= V; i++) {
                 if(group[i] == -1) {
-                    bfs(i);
+                    group[i] = 0;
+                    dfs(i);
                 }
             }
             sb.append(isCircle ? "NO" : "YES").append("\n");
@@ -48,27 +49,18 @@ public class Main {
         System.out.println(sb);
     }
 
-    static void bfs(int start) {
-        Deque<Integer> q = new ArrayDeque<>();
-
-        q.add(start);
-        group[start] = 0;
-
-        while(!q.isEmpty()) {
-            int cur = q.poll();
-
-            for(int next : list[cur]) {
-                if(group[next] != -1) {
-                    if(group[next] == group[cur]) {
-                        isCircle = true;
-                        return;
-                    }
+    static void dfs(int start) {
+        for(int next : list[start]) {
+            if(group[next] != -1) {
+                if(group[next] == group[start]) {
+                    isCircle = true;
+                    return;
                 }
+            }
 
-                if(group[next] == -1) {
-                    q.add(next);
-                    group[next] = (group[cur] + 1) % 2;
-                }
+            if(group[next] == -1) {
+                group[next] = (group[start] + 1) % 2;
+                dfs(next);
             }
         }
     }
