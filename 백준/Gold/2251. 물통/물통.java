@@ -2,13 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    // 케이스 저장
-    static int[] from = {0, 0, 1, 1, 2, 2};
-    static int[] to = {1, 2, 0, 2, 0, 1};
-
     static int[] bucket = new int[3];
-    static boolean visited[][];
-    static boolean answer[];
+    static List<Integer> answer = new ArrayList<>();
+    static int[] now = new int[3];
+    static boolean[][] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,58 +15,53 @@ public class Main {
         bucket[1] = Integer.parseInt(st.nextToken());
         bucket[2] = Integer.parseInt(st.nextToken());
 
-        visited = new boolean[201][201];
-        answer = new boolean[201];
+        visited = new boolean[bucket[0]+1][bucket[1]+1];
+        now[2] = bucket[2];
 
-        bfs();
+        dfs(now);
 
-        for(int i = 0; i < 201; i++){
-            if(answer[i]) System.out.print(i + " ");
+        Collections.sort(answer);
+
+        for(int i : answer) {
+            System.out.print(i+ " ");
         }
     }
-    
-    static void bfs() {
-        Deque<AB> q = new ArrayDeque<>();
-        
-        visited[0][0] = true;
-        q.add(new AB(0, 0));
-        answer[bucket[2]] = true;
-        
-        while(!q.isEmpty()) {
-            AB ab = q.poll();
-            
-            int a = ab.A, b = ab.B, c = bucket[2]-a-b;
-            
-            for(int i = 0; i < 6; i++) {
-                int[] next = {a, b, c};
-                next[to[i]] += next[from[i]];
-                next[from[i]] = 0;
-                
-                // 물이 넘치면
-                if(next[to[i]] > bucket[to[i]]) {
-                    
-                    // 다시 넣어줌
-                    next[from[i]] = next[to[i]] - bucket[to[i]];
-                    next[to[i]] = bucket[to[i]];
-                }
-                
-                if(!visited[next[0]][next[1]]) {
-                    visited[next[0]][next[1]] = true;
-                    q.add(new AB(next[0], next[1]));
-                    
-                    if(next[0] == 0) answer[next[2]] = true;
-                }
+
+    static void dfs(int[] now) {
+        visited[now[0]][now[1]] = true;
+
+        // 원본 복사
+        int[] copy = new int[3];
+        copy[0] = now[0]; copy[1] = now[1]; copy[2] = now[2];
+
+        if(now[0] == 0) answer.add(now[2]);
+
+        for(int i = 0; i < 3; i++) {
+            if(now[i] == 0) continue;
+
+            now[(i + 1) % 3] += now[i];
+            now[i] = 0;
+            if(now[(i + 1) % 3] > bucket[(i + 1) % 3]) {
+                now[i] = now[(i + 1) % 3] - bucket[(i + 1) % 3];
+                now[(i + 1) % 3] = bucket[(i + 1) % 3];
             }
-        }
-    }
-    
-    static class AB {
-        int A;
-        int B;
-        
-        AB(int A, int B) {
-            this.A = A;
-            this.B = B;
+
+            if(!visited[now[0]][now[1]]) {
+                dfs(now);
+            }
+
+            now[0] = copy[0]; now[1] = copy[1]; now[2] = copy[2];
+
+            now[(i + 2) % 3] += now[i];
+            now[i] = 0;
+            if(now[(i + 2) % 3] > bucket[(i + 2) % 3]) {
+                now[i] = now[(i + 2) % 3] - bucket[(i + 2) % 3];
+                now[(i + 2) % 3] = bucket[(i + 2) % 3];
+            }
+
+            if(!visited[now[0]][now[1]]) {
+                dfs(now);
+            }
         }
     }
 }
