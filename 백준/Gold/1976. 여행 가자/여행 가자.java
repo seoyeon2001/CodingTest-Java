@@ -2,70 +2,60 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    
-    static int[] parent;
-
-    static int N;
+    static int[] arr;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        N = Integer.parseInt(br.readLine());
-        int M = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        int m = Integer.parseInt(br.readLine());
 
-        parent = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            parent[i] = i;
+        int[][] map = new int[n][n];
+
+        for(int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < n; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
         }
 
-        for (int i = 1; i <= N; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 1; j <= N; j++) {
-                int temp = Integer.parseInt(st.nextToken());
+        arr = new int[n];
+        for(int i = 0; i < n; i++) {
+            arr[i] = i;
+        }
 
-                // 연결된 부분은 합집합 연산함.
-                if (temp == 1) {
-                    union(i, j);
-                }
+        for(int i = 0; i < n-1; i++) {
+            for(int j = i+1; j < n; j++) {
+                if(map[i][j] == 0) continue;
+
+                union(i, j);
             }
         }
 
         st = new StringTokenizer(br.readLine());
-        int start = find(Integer.parseInt(st.nextToken()));
-        for (int i = 1; i < M; i++) {
-            int now = Integer.parseInt(st.nextToken());
-
-            // 맨 처음 출발 도시와 연결되어있지 않은 도시가 있으면
-            // 여행 계획이 불가능한 것임.
-            if (start != find(now)) {
+        int num = Integer.parseInt(st.nextToken());
+        int parent = find(num-1);
+        for(int i = 1; i < m; i++) {
+            num = Integer.parseInt(st.nextToken());
+            if(parent != find(num-1)) {
                 System.out.println("NO");
                 return;
             }
         }
-
         System.out.println("YES");
     }
 
-    // x의 부모를 찾는 연산
-    public static int find(int x) {
-        if (x == parent[x]) {
-            return x;
-        }
-        return parent[x] = find(parent[x]);
+    static int find(int num) {
+        if(arr[num] == num) return num;
+        return arr[num] = find(arr[num]);
     }
 
-    // y의 부모를 x의 부모로 치환하는 연산 (x > y 일 경우, 반대)
-    public static void union(int x, int y) {
-        x = find(x);
-        y = find(y);
+    static void union(int a, int b) {
+        a = find(a);
+        b = find(b);
 
-        if (x != y) {
-            if (x < y) {
-                parent[y] = x;
-            } else {
-                parent[x] = y;
-            }
-        }
+        if(a < b) arr[b] = a;
+        else arr[a] = b;
     }
 }
