@@ -20,16 +20,27 @@ class Solution {
         
         // System.out.println(Arrays.deepToString(map));
         
-        for(int k = 1; k <= N; k++) {
-            for(int i = 1; i <= N; i++) {                
-                for(int j = 1; j <= N; j++) {
-                    // System.out.println(i + " " + j + " " + k);
-                    if(map[i][k] + map[k][j] >= 0 && map[i][k] + map[k][j] < map[i][j]) {
-                        map[i][j] = map[i][k] + map[k][j];
-                    }
+//         for(int i = 1; i <= N; i++) {
+//             for(int j = 1; j <= N; j++) {
+//                 if(i == j) continue;
+                
+//                 for(int k = 1; k <= N; k++) {
+//                     // System.out.println(i + " " + j + " " + k);
+//                     if(map[i][k] + map[k][j] >= 0 && map[i][k] + map[k][j] < map[i][j]) {
+//                         map[i][j] = map[i][k] + map[k][j];
+//                     }
                     
+//                 }
+//                 // System.out.println(Arrays.deepToString(map));
+//             }
+        
+        for(int k = 1; k <= N; k++) {
+             for(int j = 2; j <= N; j++) {
+                // System.out.println(i + " " + j + " " + k);
+                if(map[1][k] + map[k][j] >= 0 && map[1][k] + map[k][j] < map[1][j]) {
+                    map[1][j] = map[1][k] + map[k][j];
                 }
-                // System.out.println(Arrays.deepToString(map));
+
             }
         }
         
