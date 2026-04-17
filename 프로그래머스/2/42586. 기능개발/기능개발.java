@@ -1,9 +1,8 @@
+// 14분
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
-        int[] answer = {};
-        
+    public int[] solution(int[] progresses, int[] speeds) {        
         List<Integer> list = new ArrayList<>();
         
         int[] days = new int[progresses.length];
@@ -33,7 +32,7 @@ class Solution {
         
         // System.out.println(list);
         
-        answer = new int[list.size()];
+        int[] answer = new int[list.size()];
         for(int i = 0; i < answer.length; i++) {
             answer[i] = list.get(i);
         }
