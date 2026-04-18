@@ -1,3 +1,5 @@
+// 20분
+
 import java.util.*;
 
 class Solution {
