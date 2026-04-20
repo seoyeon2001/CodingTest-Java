@@ -1,3 +1,5 @@
+/*
+// 4분
 import java.util.*;
 public class Solution {
     public int[] solution(int []arr) {
@@ -19,3 +21,29 @@ public class Solution {
         return answer;
     }
 }
+*/
+
+// 4분
+import java.util.*;
+public class Solution {
+    public int[] solution(int []arr) {
+        
+        Deque<Integer> q = new ArrayDeque<>();
+        q.addLast(arr[0]);
+        
+        for(int i = 1; i < arr.length; i++) {
+            if(q.peekLast() != arr[i]) {
+                q.addLast(arr[i]);
+            }
+        }
+        
+        int[] answer = new int[q.size()];
+        int idx = 0;
+        while(!q.isEmpty()) {
+            answer[idx++] = q.pollFirst();
+        }
+        
+        return answer;
+    }
+}
+
