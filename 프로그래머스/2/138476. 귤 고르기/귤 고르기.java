@@ -1,3 +1,4 @@
+// 18분
 import java.util.*;
 
 class Solution {
@@ -5,20 +6,14 @@ class Solution {
         int answer = 0;
         
         Map<Integer, Integer> map = new HashMap<>();
-        
         for(int t : tangerine) {
-            if(!map.containsKey(t)) map.put(t, 1);
-            else map.put(t, map.get(t)+1);
+            // if(!map.containsKey(t)) map.put(t, 1);
+            // else map.put(t, map.get(t)+1);
+            
+            map.put(t, map.getOrDefault(t, 0) + 1);
         }
-        // System.out.println(map);
-        
-        // int[] map = new int[10000001];
-        // for(int t : tangerine) {
-        //     map[t]++;
-        // }
-        
+                
         PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> b[1] - a[1]);
-        
         for(Map.Entry<Integer, Integer> m : map.entrySet()) {
             q.add(new int[] {m.getKey(), m.getValue()});
         }
@@ -28,6 +23,7 @@ class Solution {
             k -= cur[1];
             answer++;
         }
+        
         return answer;
     }
 }
