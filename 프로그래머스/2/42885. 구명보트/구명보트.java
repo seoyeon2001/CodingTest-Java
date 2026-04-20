@@ -21,7 +21,7 @@ class Solution {
             } else {
                 right--;
             }
-        }
+        }        
         
         for(int i = 0; i < people.length; i++) {
             if(!visited[i]) answer++;
