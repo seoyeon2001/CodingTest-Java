@@ -1,5 +1,5 @@
 SELECT 
-    HISTORY_ID, CAR_ID, START_DATE, END_DATE,
+    HISTORY_ID, CAR_ID, DATE_FORMAT(START_DATE, '%Y-%m-%d'), DATE_FORMAT(END_DATE, '%Y-%m-%d'),
     CASE 
         WHEN DATEDIFF(END_DATE, START_DATE) >= 29 THEN '장기 대여' 
         ELSE '단기 대여' 
