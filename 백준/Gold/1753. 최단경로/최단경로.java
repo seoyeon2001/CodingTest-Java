@@ -25,32 +25,31 @@ public class Main {
             list[u].add(new int[] {v, w});
         }
 
-        boolean[] visited = new boolean[V+1];
         int[] answer = new int[V+1];
         Arrays.fill(answer, Integer.MAX_VALUE);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 
-        PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-
-        // 시작
         answer[K] = 0;
-        q.add(new int[] {K, 0});
+        pq.add(new int[] {K, 0});
 
-        while(!q.isEmpty()) {
-            int[] cur = q.poll();
+        while(!pq.isEmpty()) {
+            int[] cur = pq.poll();
 
-            if(visited[cur[0]]) continue;
+            if(cur[1] > answer[cur[0]]) continue;
 
-            visited[cur[0]] = true;
             for(int[] next : list[cur[0]]) {
-                if(answer[next[0]] > answer[cur[0]] + next[1]) {
+                if(answer[cur[0]] + next[1] < answer[next[0]]) {
                     answer[next[0]] = answer[cur[0]] + next[1];
-                    q.add(new int[] {next[0], answer[next[0]]});
+                    pq.add(new int[] {next[0], answer[next[0]]});
                 }
             }
         }
 
+//        System.out.println("answer = " + Arrays.toString(answer));
+
         for(int i = 1; i <= V; i++) {
             System.out.println(answer[i] == Integer.MAX_VALUE ? "INF" : answer[i]);
         }
+
     }
 }
