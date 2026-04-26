@@ -2,6 +2,18 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static class Node implements Comparable<Node> {
+        int node, dist;
+
+        Node(int node, int dist) {
+            this.node = node;
+            this.dist = dist;
+        }
+        @Override
+        public int compareTo(Node other) {
+            return this.dist - other.dist;
+        }
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -29,20 +41,20 @@ public class Main {
 
         int[] answer = new int[n+1];
         Arrays.fill(answer, Integer.MAX_VALUE);
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
 
         answer[start] = 0;
-        pq.add(new int[] {start, 0});
+        pq.add(new Node(start, 0));
 
         while(!pq.isEmpty()) {
-            int[] cur = pq.poll();
+            Node cur = pq.poll();
 
-            if(cur[1] > answer[cur[0]]) continue;
+            if(cur.dist > answer[cur.node]) continue;
 
-            for(int[] next : list[cur[0]]) {
-                if(answer[cur[0]] + next[1] < answer[next[0]]) {
-                    answer[next[0]] = answer[cur[0]] + next[1];
-                    pq.add(new int[] {next[0], answer[next[0]]});
+            for(int[] next : list[cur.node]) {
+                if(answer[cur.node] + next[1] < answer[next[0]]) {
+                    answer[next[0]] = answer[cur.node] + next[1];
+                    pq.add(new Node(next[0], answer[next[0]]));
                 }
             }
         }
