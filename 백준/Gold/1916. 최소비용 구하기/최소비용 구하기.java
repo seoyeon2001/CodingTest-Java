@@ -27,26 +27,26 @@ public class Main {
         int start = Integer.parseInt(st.nextToken());
         int end = Integer.parseInt(st.nextToken());
 
-        PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-        
         int[] answer = new int[n+1];
         Arrays.fill(answer, Integer.MAX_VALUE);
-        
-        answer[start] = 0;
-        q.add(new int[] {start, 0});
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 
-        while(!q.isEmpty()) {
-            int[] cur = q.poll();
-            
+        answer[start] = 0;
+        pq.add(new int[] {start, 0});
+
+        while(!pq.isEmpty()) {
+            int[] cur = pq.poll();
+
             if(cur[1] > answer[cur[0]]) continue;
-            
+
             for(int[] next : list[cur[0]]) {
-                if(answer[next[0]] > answer[cur[0]] + next[1]) {
+                if(answer[cur[0]] + next[1] < answer[next[0]]) {
                     answer[next[0]] = answer[cur[0]] + next[1];
-                    q.add(new int[] {next[0], answer[next[0]]});
+                    pq.add(new int[] {next[0], answer[next[0]]});
                 }
             }
         }
+
         System.out.println(answer[end]);
     }
 }
