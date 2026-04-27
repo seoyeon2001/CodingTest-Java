@@ -56,36 +56,52 @@
 import java.util.*;
 
 class Solution {
+    // 0: U, 1: D, 2: L, 3: R
+    private static final int[] dx = {0, 0, -1, 1};
+    private static final int[] dy = {1, -1, 0, 0};
+
+    // 반대 방향 인덱스
+    private static final int[] reverse = {1, 0, 3, 2};
 
     public int solution(String dirs) {
-        Set<String> visited = new HashSet<>();
+        boolean[][][] visited = new boolean[11][11][4];
 
         int x = 0; int y = 0;
-        for (char dir : dirs.toCharArray()) {
-            int nx = x; int ny = y;
+        int answer = 0;
 
-            switch (dir) {
-                case 'U': ny++; break;
-                case 'D': ny--; break;
-                case 'R': nx++; break;
-                case 'L': nx--; break;
-            }
+        for (char command : dirs.toCharArray()) {
+            int dir = getDirection(command);
+
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
 
             // 경계 밖이면 무시
-            if (nx < -5 || nx > 5 || ny < -5 || ny > 5) {
-                continue;
-            }
+            if (nx < -5 || nx > 5 || ny < -5 || ny > 5) continue;
 
-            // 양방향 동일한 길 처리            
-            String path = x + "," + y + "->" + nx + "," + ny;
-            String reversePath = nx + "," + ny + "->" + x + "," + y;
+            int cx = x + 5;
+            int cy = y + 5;
+            int nnx = nx + 5;
+            int nny = ny + 5;
 
-            visited.add(path);
-            visited.add(reversePath);
+            // 처음 지나가는 길이면 카운트
+            if (!visited[cx][cy][dir])  answer++;
+
+            // 양방향 방문 처리
+            visited[cx][cy][dir] = true;
+            visited[nnx][nny][reverse[dir]] = true;
 
             x = nx; y = ny;
         }
 
-        return visited.size() / 2;
+        return answer;
+    }
+
+    private int getDirection(char command) {
+        switch (command) {
+            case 'U': return 0;
+            case 'D': return 1;
+            case 'L': return 2;
+            default:  return 3; // R
+        }
     }
 }
