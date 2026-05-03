@@ -1,3 +1,55 @@
+import java.util.*;
+
+class Solution {
+    static int answer = 0;
+    static int length;
+    
+    public int solution(int k, int[][] dungeons) {
+        length = dungeons.length;
+        
+        permutation(0, new ArrayList<>(), new boolean[length], dungeons, k);
+        return answer;
+    }
+    
+    private void permutation(int depth, List<Integer> list, boolean[] visited, int[][] dungeons, int k) {
+        if(depth == length) {
+            int cnt = calc(list, dungeons, k);
+            // System.out.println(cnt);
+            answer = Math.max(answer, cnt);
+        }
+        
+        for(int i = 0; i < length; i++) {
+            if(!visited[i]) {
+                visited[i] = true;
+                list.add(i);
+                
+                permutation(depth+1, list, visited, dungeons, k);
+                
+                visited[i] = false;
+                list.remove(list.size()-1);
+            }
+        }
+    }
+    
+    private int calc(List<Integer> list, int[][] dungeons, int k) {
+        int cnt = 0;
+        
+        for(int idx : list) {
+            if(k >= dungeons[idx][0]) {
+                k -= dungeons[idx][1];
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+}
+
+
+
+
+
+
+/*
 // 24분
 import java.util.*;
 
@@ -53,3 +105,4 @@ class Solution {
         return answer;        
     }
 }
+*/
