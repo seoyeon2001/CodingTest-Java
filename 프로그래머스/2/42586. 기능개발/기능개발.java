@@ -1,42 +1,41 @@
-// 14분
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {        
-        List<Integer> list = new ArrayList<>();
-        
-        int[] days = new int[progresses.length];
-        for(int i = 0 ; i < progresses.length; i++) {
-            int left = 100 - progresses[i];
-            
-            days[i] = left / speeds[i];
-            
-            if(left % speeds[i] != 0) days[i]++;
-            
-        }
-        // System.out.println(Arrays.toString(days));
+    public int[] solution(int[] progresses, int[] speeds) {
+        int[] answer = {};
         
         Deque<Integer> q = new ArrayDeque<>();
-        q.add(days[0]);
-        
-        for(int i = 1; i < days.length; i++) {
-            if(days[i] <= q.peek()) {
-                q.add(days[i]);
-            } else {
-                list.add(q.size());
-                q.clear();
-                q.add(days[i]);
-            } 
+        for(int i = 0; i < progresses.length; i++) {
+            int left = 100 - progresses[i];
+            
+            int days = left / speeds[i];
+            
+            if(left % speeds[i] != 0) days++;
+            
+            q.add(days);
         }
-        list.add(q.size());
         
-        // System.out.println(list);
+        List<Integer> list = new ArrayList<>();
+        int now = q.poll();
+        int cnt = 1;
         
-        int[] answer = new int[list.size()];
-        for(int i = 0; i < answer.length; i++) {
+        while(!q.isEmpty()) {      
+            if(now >= q.peek()) {
+                q.poll();
+                cnt++;
+            } else {
+                list.add(cnt);
+                now = q.poll();
+                cnt = 1;
+            }
+        }
+        
+        list.add(cnt);
+        
+        answer = new int[list.size()];
+        for(int i = 0; i < list.size(); i++) {
             answer[i] = list.get(i);
         }
-
         return answer;
     }
 }
