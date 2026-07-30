@@ -1,26 +1,23 @@
-// 25분
-import java.util.*;
-
 class Solution {
+    static int cnt;
     
-    static int answer = 0;
-    
-    public int solution(int[] numbers, int target) {        
-        dfs(-numbers[0], 0, numbers, target);
-        // System.out.println("-------------------------");
-        dfs(numbers[0], 0, numbers, target);
+    public int solution(int[] numbers, int target) {
         
-        return answer;
+        back(numbers, target, 0, numbers[0]);
+        back(numbers, target, 0, -numbers[0]);
+        
+        return cnt;
     }
     
-    static void dfs(int num, int depth, int[] numbers, int target) {
-        // System.out.println(depth + " " + num);
-        if(depth == numbers.length-1) {
-            if(num == target) answer++;
+    static void back(int[] numbers, int target, int idx, int num) {        
+        if(idx == numbers.length-1) {
+            if(num == target) {
+                cnt++;
+            }
             return;
         }
         
-        dfs(num - numbers[depth+1], depth+1, numbers, target);
-        dfs(num + numbers[depth+1], depth+1, numbers, target);
+        back(numbers, target, idx+1, num + numbers[idx+1]);
+        back(numbers, target, idx+1, num - numbers[idx+1]);
     }
 }
