@@ -5,14 +5,19 @@ class Solution {
         int answer = 1;
         
         Map<String, Integer> map = new HashMap<>();
+        
         for(String[] cloth : clothes) {
-            map.put(cloth[1], map.getOrDefault(cloth[1], 0) + 1);
+            String category = cloth[1];
+            
+            map.put(category, map.getOrDefault(category, 0)+1);
         }
-
+        
+        // System.out.println(map);
+        
         for(Map.Entry<String, Integer> entry : map.entrySet()) {
-            // System.out.println(entry.getKey() + " " + entry.getValue());
-            answer *= (entry.getValue() + 1);
+            answer *= entry.getValue()+1;
         }
+        
         
         return answer-1;
     }
