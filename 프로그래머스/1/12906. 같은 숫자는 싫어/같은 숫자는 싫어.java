@@ -1,49 +1,23 @@
-/*
-// 4분
 import java.util.*;
 public class Solution {
-    public int[] solution(int []arr) {
+    public int[] solution(int[] arr) {
+        int[] answer = {};
         
-        List<Integer> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        list.add(arr[0]);
         
-        result.add(arr[0]);
         for(int i = 1; i < arr.length; i++) {
-            if(arr[i-1] != arr[i]) {
-                result.add(arr[i]);
+            if(list.get(list.size()-1) != arr[i]) {
+                list.add(arr[i]);
             }
         }
+        // System.out.println(list);
         
-        int[] answer = new int[result.size()];
-        for(int i = 0; i < result.size(); i++) {
-            answer[i] = result.get(i);
+        answer = new int[list.size()];        
+        for(int i = 0; i < answer.length; i++) {
+            answer[i] = list.get(i);
         }
 
         return answer;
     }
 }
-*/
-
-// 4분
-import java.util.*;
-public class Solution {
-    public int[] solution(int []arr) {
-        
-        Deque<Integer> q = new ArrayDeque<>();
-        q.addLast(arr[0]);
-        
-        for(int i = 1; i < arr.length; i++) {
-            if(q.peekLast() != arr[i]) {
-                q.addLast(arr[i]);
-            }
-        }
-        
-        int[] answer = new int[q.size()];
-        int idx = 0;
-        while(!q.isEmpty()) {
-            answer[idx++] = q.pollFirst();
-        }
-        
-        return answer;
-    }
-}
-
