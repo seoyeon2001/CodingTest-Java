@@ -5,19 +5,18 @@ class Solution {
         String answer = "";
         
         Map<String, Integer> map = new HashMap<>();
-        for(String part : participant) {
-            map.put(part, map.getOrDefault(part, 0) + 1);
+        
+        for(String parti : participant) {
+            map.put(parti, map.getOrDefault(parti, 0)+1);
         }
         
-        // System.out.println(map);
-        
-        for(String com : completion) {
-            map.put(com, map.get(com) - 1);
-            // System.out.println(map);
+        for(String comp : completion) {
+            map.put(comp, map.get(comp)-1);
         }
         
         for(Map.Entry<String, Integer> entry : map.entrySet()) {
-            if(entry.getValue() != 0) {
+            // System.out.println(entry.getKey() + " " + entry.getValue());
+            if(entry.getValue() == 1) {
                 answer = entry.getKey();
                 break;
             }
