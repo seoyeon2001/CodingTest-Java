@@ -2,24 +2,22 @@ import java.util.*;
 
 class Solution {
     boolean solution(String s) {
-        boolean answer = true;
-        
-        if(s.charAt(0) == ')') return false;
 
+        char[] c = s.toCharArray();
+        // System.out.println(Arrays.toString(c));
+        
         Stack<Character> stack = new Stack<>();
-        for(int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            
-            if(c == '(') {
-                stack.push(c);
-            } else {
+        for(char cc : c) {
+            if(cc == '(') stack.push(cc);
+            else {
                 if(stack.isEmpty()) return false;
+                
                 stack.pop();
             }
         }
         
-        if(!stack.isEmpty()) answer = false;
+        if(!stack.isEmpty()) return false;
 
-        return answer;
+        return true;
     }
 }
