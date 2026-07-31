@@ -1,26 +1,15 @@
 class Solution {
-    public int solution(int[][] sizes) {
-        int n = sizes.length;
-
-        int maxRow = 0;
-        int maxCol = 0;
+    public int solution(int[][] sizes) {        
+        int fMax = 0;
+        int sMax = 0;
         
-        for (int i = 0; i < n; i++) {
-            int[] size = sizes[i];
+        for(int[] size : sizes) {
+            int w = size[0];
+            int h = size[1];
             
-            int row = Math.max(size[0], size[1]);
-            int col = Math.min(size[0], size[1]);
-            
-            if (row > maxRow) {
-                maxRow = row;
-            }
-            
-            if (col > maxCol) {
-                maxCol = col;
-            }
+            fMax = Math.max(fMax, Math.min(w, h));
+            sMax = Math.max(sMax, Math.max(w, h));
         }
-        
-        
-        return maxRow * maxCol;
+        return fMax * sMax;
     }
 }
