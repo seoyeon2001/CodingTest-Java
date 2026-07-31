@@ -33,20 +33,4 @@ class Solution {
             list.remove(list.size()-1);
         }
     }
-
-//     public void duple_permutation(int r, int depth, char[] answer) {
-//         if(depth == r) {
-//             StringBuilder sb = new StringBuilder();
-//             for(int i = 0; i < r; i ++){
-//                 sb.append(answer[i]);
-//             }
-//             list.add(sb.toString());
-//             return;
-//         }
-
-//         for(int i = 0; i < s.length(); i++){
-//             answer[depth] = s.charAt(i);
-//             duplePermutation(r, depth+1, answer);
-//         }
-//     }
 }
