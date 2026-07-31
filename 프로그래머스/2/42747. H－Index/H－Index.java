@@ -12,12 +12,13 @@ class Solution {
         for(int citation : citations) {
             arr[citation]++;
         }
+        // System.out.println(Arrays.toString(arr));
         
         for(int i = max-1; i >= 0; i--) {
             arr[i] += arr[i+1];
         }
         
-        System.out.println(Arrays.toString(arr));
+        // System.out.println(Arrays.toString(arr));
         
         for(int i = max; i >= 0; i--) {
             if(i <= arr[i]) {
@@ -25,7 +26,6 @@ class Solution {
                 break;
             }
         }
-        System.out.println(answer);
 //         int left = 0;
 //         int right = max;
         
