@@ -4,22 +4,17 @@ class Solution {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
         
-        for(int i = 0; i < commands.length; i++) {
-            int[] command = commands[i];
-            int start = command[0];
-            int end = command[1];
-            int target = command[2];
+        for(int idx = 0; idx < commands.length; idx++) {
+            int[] command = commands[idx];
+            int i = command[0];
+            int j = command[1];
+            int k = command[2];
             
-            // int[] arr = new int[end - start + 1];
-            // for(int j = start-1; j < end; j++) {
-            //     arr[j-start+1] = array[j];
-            // }
+            int[] newArray = Arrays.copyOfRange(array, i-1, j);
+            Arrays.sort(newArray);
+            // System.out.println(Arrays.toString(newArray));
             
-            int[] arr = Arrays.copyOfRange(array, start-1, end);
-            System.out.println(Arrays.toString(arr));
-            
-            Arrays.sort(arr);
-            answer[i] = arr[target-1];
+            answer[idx] = newArray[k-1];
         }
         return answer;
     }
