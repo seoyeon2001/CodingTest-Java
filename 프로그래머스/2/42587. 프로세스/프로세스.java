@@ -1,42 +1,34 @@
 import java.util.*;
 
 class Solution {
-    static class Pro {
-        int priority;
-        int idx;
-        
-        Pro(int priority, int idx) {
-            this.priority = priority;
-            this.idx = idx;
-        }
-    }
-    
     public int solution(int[] priorities, int location) {
         int answer = 0;
         
-        PriorityQueue<Pro> pq = new PriorityQueue<>((a, b) -> b.priority - a.priority);
-        Deque<Pro> q = new ArrayDeque<>();
-        
+        Deque<int[]> q = new ArrayDeque<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
         for(int i = 0; i < priorities.length; i++) {
-            pq.add(new Pro(priorities[i], i));
-            q.add(new Pro(priorities[i], i));
+            q.addLast(new int[] {i, priorities[i]});
+            pq.add(priorities[i]);
         }
         
-        int order = 0;
+        // System.out.println(pq);
+        
+        int high = pq.poll();
+        
         while(!q.isEmpty()) {
-            Pro cur = q.poll();
+            int[] now = q.pollFirst();
+            // System.out.println(Arrays.toString(now));
             
-            if(cur.priority < pq.peek().priority) {
-                q.add(cur);
-            } else if(cur.priority == pq.peek().priority) {
-                order++;
-                pq.poll();
-                
-                if(cur.idx == location) {
-                    answer = order;
-                    break;
+            if(now[1] < high) {
+                q.addLast(now);
+            } else if(now[1] == high) {
+                answer++;                
+                if(now[0] == location) {
+                    return answer;
                 }
+                high = pq.poll();
             }
+        
         }
         return answer;
     }
