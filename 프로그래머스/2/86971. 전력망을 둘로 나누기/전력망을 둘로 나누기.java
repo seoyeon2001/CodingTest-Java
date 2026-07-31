@@ -21,7 +21,12 @@ class Solution {
             list[wire[0]].remove(Integer.valueOf(wire[1]));
             list[wire[1]].remove(Integer.valueOf(wire[0]));
             
-            calc(list, n);
+            boolean[] visited = new boolean[n+1];
+        
+            // int cnt = dfs(1, visited);
+            int cnt = bfs(visited);
+
+            if(answer > Math.abs((n-cnt)-cnt)) answer = Math.abs((n-cnt)-cnt);
             
             list[wire[0]].add(wire[1]);
             list[wire[1]].add(wire[0]);
@@ -30,25 +35,35 @@ class Solution {
         return answer;
     }
     
-    static void calc(List<Integer>[] list, int n) {        
-        boolean[] visited = new boolean[n+1];
+    static int bfs(boolean[] visited) {
+        int cnt = 0;
+        Deque<Integer> q = new ArrayDeque<>();
+        q.add(1);
         visited[1] = true;
         
-        int cnt = dfs(1, visited, list);
+        while(!q.isEmpty()) {
+            int cur = q.poll();
+            cnt++;
+            
+            for(int next : list[cur]) {
+                if(visited[next]) continue;
+                
+                q.add(next);
+                visited[next] = true;
+            }
+        }
         
-        if(answer > Math.abs((n-cnt)-cnt)) answer = Math.abs((n-cnt)-cnt);
+        return cnt;
     }
     
-    static int dfs(int num, boolean[] visited, List<Integer>[] list) {
+    static int dfs(int num, boolean[] visited) {
         int cnt = 1;
         
         visited[num] = true;
         
         for(int link : list[num]) {
-            if(!visited[link]) {
-                visited[link] = true;
-                
-                cnt += dfs(link, visited, list);
+            if(!visited[link]) {                
+                cnt += dfs(link, visited);
             }
         }
         
