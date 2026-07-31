@@ -55,13 +55,13 @@ class Solution {
         if(number != 0) set.add(number);
     }
     
-    static boolean isPrime(int num) {
-        if(num == 1) return false;
-        
-        for(int i = 2; i <= Math.sqrt(num); i++) {
-            if(num % i == 0) return false;
+    private boolean isPrime(int number) {
+        if (number < 2) return false;
+
+        for (int divisor = 2; divisor * divisor <= number; divisor++) {
+            if (number % divisor == 0) return false;
         }
+
         return true;
-    }
-    
+    }    
 }
