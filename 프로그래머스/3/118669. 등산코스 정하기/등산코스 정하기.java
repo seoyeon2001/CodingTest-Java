@@ -1,7 +1,7 @@
 import java.util.*;
 
 class Solution {
-    class Edge implements Comparable<Edge>{
+    class Edge implements Comparable<Edge> {
         int node; 
         int cost;
         
