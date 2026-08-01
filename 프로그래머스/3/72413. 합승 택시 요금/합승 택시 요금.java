@@ -1,77 +1,65 @@
 import java.util.*;
 
 class Solution {
-    static List<List<Edge>> graph;
+    
+    static List<int[]>[] graph;
     
     public int solution(int n, int s, int a, int b, int[][] fares) {
-        graph = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
-        }
+        int answer = Integer.MAX_VALUE;
         
+        graph = new ArrayList[n+1];
+        for(int i = 1; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
         for(int[] fare : fares) {
-            graph.get(fare[0]).add(new Edge(fare[1], fare[2]));
-            graph.get(fare[1]).add(new Edge(fare[0], fare[2]));
+            int v = fare[0];
+            int u = fare[1];
+            int cost = fare[2];
+            
+            graph[v].add(new int[] {u, cost});
+            graph[u].add(new int[] {v, cost});
         }
         
-        int[][] minDists = new int[n+1][n+1];
-        for (int i = 0; i <= n; i++) { // 각 노드별 최소 비용
-            minDists[i] = minDist(i, n);
+        int[] fromS = minCost(s, n);
+        int[] fromA = minCost(a, n);
+        int[] fromB = minCost(b, n);
+        
+        int[][] minCosts = new int[n+1][n+1];
+        for(int i = 1; i <= n; i++) {
+            minCosts[i] = minCost(i, n);
         }
         
-        /*
-        for (int i = 1; i <= n; i++) {
-            System.out.println(Arrays.toString(minDists[i]));
-        }
-        */
-        
-        int result = Integer.MAX_VALUE;
-        for (int i = 1; i <= n; i++) {
-            result = Math.min(result, (minDists[s][i] + minDists[i][a] + minDists[i][b]));
+        for(int i = 1; i <= n; i++) {
+            answer = Math.min(answer, fromS[i] + fromA[i] + fromB[i]);
         }
         
-        
-        return result;
+        return answer;
     }
     
-    static int[] minDist(int startNode, int n) {
-        Queue<Edge> q = new PriorityQueue<>();
-        int[] dist = new int[n+1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
+    static int[] minCost(int start, int n) {
+        int[] cost = new int[n+1];
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        cost[start] = 0;
         
-        q.add(new Edge(startNode, 0));
-        dist[startNode] = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        pq.add(new int[] {start, 0});
         
-        while(!q.isEmpty()) {
-            Edge cur = q.poll();
+        while(!pq.isEmpty()) {
+            int[] cur = pq.poll();
             
-            if (cur.cost > dist[cur.node]) continue;
+            if(cost[cur[0]] < cur[1]) continue;
             
-            for(Edge next : graph.get(cur.node)) {
-                int nextDist = dist[cur.node] + next.cost;
-                if(dist[next.node] > nextDist) {
-                    q.add(new Edge(next.node, nextDist));
-                    dist[next.node] = nextDist;
+            for(int[] next : graph[cur[0]]) {
+                int nextNode = next[0];
+                int nextCost = next[1];
+                
+                if(cost[nextNode] > cur[1] + nextCost) {
+                    cost[nextNode] = cur[1] + nextCost;
+                    pq.add(new int[] {nextNode, cost[nextNode]});
                 }
             }
         }
         
-        // System.out.println(Arrays.toString(dist));
-        return dist;
-    }
-}
-
-class Edge implements Comparable<Edge> {
-    int node;
-    int cost;
-
-    public Edge(int node, int cost) {
-        this.node = node;
-        this.cost = cost;
-    }
-
-    @Override
-    public int compareTo(Edge other) {
-        return this.cost - other.cost;
+        return cost;
     }
 }
