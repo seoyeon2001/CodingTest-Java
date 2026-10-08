@@ -1,18 +1,22 @@
 import java.util.*;
 
 class Solution {
-    public boolean solution(String[] phoneBook) {
+    public boolean solution(String[] phone_book) {
         boolean answer = true;
+        Arrays.sort(phone_book);
         
-        Arrays.sort(phoneBook);        
-        // System.out.println(Arrays.toString(phoneBook));
+        // System.out.println(Arrays.toString(phone_book));
         
-        for(int i = 0; i < phoneBook.length-1; i++) {
-            if(phoneBook[i+1].startsWith(phoneBook[i])) {
-                return false;
-            }
+        String first = phone_book[0];
+        
+        for(int i = 1; i < phone_book.length; i++) {
+            String com = phone_book[i];
+            
+            if(com.startsWith(first)) return false;
+            
+            first = com;
+            
         }
-        
         return answer;
     }
 }
