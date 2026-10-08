@@ -6,22 +6,20 @@ class Solution {
         
         Map<String, Integer> map = new HashMap<>();
         
-        for(String parti : participant) {
-            map.put(parti, map.getOrDefault(parti, 0)+1);
+        for(String par : participant) {
+            map.put(par, map.getOrDefault(par, 0)+1);
         }
         
-        for(String comp : completion) {
-            map.put(comp, map.get(comp)-1);
+        for(String com : completion) {
+            map.put(com, map.get(com)-1);
         }
         
         for(Map.Entry<String, Integer> entry : map.entrySet()) {
-            // System.out.println(entry.getKey() + " " + entry.getValue());
             if(entry.getValue() == 1) {
                 answer = entry.getKey();
                 break;
             }
         }
-        
         return answer;
     }
 }
