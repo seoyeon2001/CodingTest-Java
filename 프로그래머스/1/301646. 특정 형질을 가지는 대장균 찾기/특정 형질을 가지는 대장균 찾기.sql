@@ -1,3 +1,5 @@
--- 코드를 작성해주세요
-select count(*) AS COUNT from ECOLI_DATA
-where genotype & b'0010' = 0 and (genotype & b'0100' or genotype & b'0001')
+SELECT COUNT(*) AS COUNT
+FROM ECOLI_DATA
+WHERE BIN(GENOTYPE) & b'0010' = 0 AND (BIN(GENOTYPE) & b'0100' OR BIN(GENOTYPE) & b'0001')
+
+# GENOTYPE & b'0010' = 0 AND (GENOTYPE & b'0100' OR GENOTYPE & b'0001')
