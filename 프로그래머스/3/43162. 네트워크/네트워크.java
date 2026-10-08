@@ -1,5 +1,6 @@
 import java.util.*;
 
+/*
 class Solution {
     static boolean[] visited;
     static List<Integer>[] list;
@@ -38,6 +39,44 @@ class Solution {
         for(int next : list[num]) {
             if(!visited[next]) {
                 dfs(next);
+            }
+        }
+        
+    }
+}
+*/
+
+class Solution {
+    static boolean[] visited;
+    
+    public int solution(int n, int[][] computers) {
+        int answer = 0;
+        
+        visited = new boolean[n];
+        
+        for(int i = 0; i < n; i++) {
+            if(!visited[i]) {
+                bfs(i, n, computers);
+                answer++;
+            }
+        }
+        return answer;
+    }
+    
+    private void bfs(int num, int n, int[][] computers) {
+        Deque<Integer> q = new ArrayDeque<>();
+        
+        q.add(num);
+        visited[num] = true;
+        
+        while(!q.isEmpty()) {
+            int cur = q.poll();
+            
+            for(int i = 0; i < n; i++) {
+                if(cur != i && computers[cur][i] == 1 && !visited[i]) {
+                    q.add(i);
+                    visited[i] = true;
+                }
             }
         }
         
