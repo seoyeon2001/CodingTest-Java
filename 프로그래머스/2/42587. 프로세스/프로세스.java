@@ -6,29 +6,22 @@ class Solution {
         
         Deque<int[]> q = new ArrayDeque<>();
         PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+        
         for(int i = 0; i < priorities.length; i++) {
-            q.addLast(new int[] {i, priorities[i]});
+            q.add(new int[] {priorities[i], i});
             pq.add(priorities[i]);
         }
         
-        // System.out.println(pq);
-        
-        int high = pq.poll();
-        
         while(!q.isEmpty()) {
-            int[] now = q.pollFirst();
-            // System.out.println(Arrays.toString(now));
+            int[] cur = q.poll();
             
-            if(now[1] < high) {
-                q.addLast(now);
-            } else if(now[1] == high) {
-                answer++;                
-                if(now[0] == location) {
-                    return answer;
-                }
-                high = pq.poll();
+            if(cur[0] < pq.peek()) {
+                q.add(cur);
+            } else {
+                answer++;
+                pq.poll();
+                if(cur[1] == location) return answer;
             }
-        
         }
         return answer;
     }
