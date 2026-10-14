@@ -1,4 +1,4 @@
-import java.util.*;
+/*import java.util.*;
 
 class Solution {
     public int solution(int n, int[][] edge) {
@@ -44,6 +44,54 @@ class Solution {
             }
         }
         
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[][] edge) {
+        List<Integer>[] graph = new ArrayList[n + 1];
+
+        for (int i = 1; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int[] e : edge) {
+            graph[e[0]].add(e[1]);
+            graph[e[1]].add(e[0]);
+        }
+
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, -1);
+
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.offer(1);
+        dist[1] = 0;
+
+        int maxDist = 0;
+
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+
+            for (int next : graph[cur]) {
+                if (dist[next] != -1) continue;
+
+                dist[next] = dist[cur] + 1;
+                maxDist = Math.max(maxDist, dist[next]);
+                queue.offer(next);
+            }
+        }
+
+        int answer = 0;
+        for (int i = 1; i <= n; i++) {
+            if (dist[i] == maxDist) {
+                answer++;
+            }
+        }
+
         return answer;
     }
 }
