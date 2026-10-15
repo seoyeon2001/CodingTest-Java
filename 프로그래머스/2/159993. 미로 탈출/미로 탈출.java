@@ -7,39 +7,34 @@ class Solution {
     public int solution(String[] maps) {        
         int startR = -1, startC = -1, leverR = -1, leverC = -1, endR = -1, endC = -1;
         
-        int[][] grids = new int[maps.length][maps[0].length()];
         for(int i = 0; i < maps.length; i++) {
             for(int j = 0; j < maps[i].length(); j++) {
-                if(maps[i].charAt(j) == 'X') grids[i][j] = 1;
+                char c = maps[i].charAt(j);
                 
-                else if (maps[i].charAt(j) == 'S') {
-                    grids[i][j] = 0;
+                if(c == 'S') {
                     startR = i; startC = j;
-                } else if (maps[i].charAt(j) == 'E') {
-                    grids[i][j] = 0;
+                } else if (c == 'E') {
                     endR = i; endC = j;
-                } else if (maps[i].charAt(j) == 'L') {
-                    grids[i][j] = 0;
+                } else if (c == 'L') {
                     leverR = i; leverC = j;
                 }
             }
         }
-        // System.out.println(Arrays.deepToString(grids));
-                
+        
         // 1. 출발에서 레버로 이동
-        int answerA = bfs(grids, startR, startC, leverR, leverC);
+        int answerA = bfs(maps, startR, startC, leverR, leverC);
         
         // 2. 레버에서 출구로 이동
-        int answerB = bfs(grids, leverR, leverC, endR, endC);
+        int answerB = bfs(maps, leverR, leverC, endR, endC);
         
         if(answerA == -1 || answerB == -1) return -1;
         
         return answerA + answerB;
     }
     
-    private int bfs(int[][] grids, int fromR, int fromC, int toR, int toC) {
+    private int bfs(String[] maps, int fromR, int fromC, int toR, int toC) {
         Deque<int[]> q = new ArrayDeque<>();
-        boolean[][] visited = new boolean[grids.length][grids[0].length];
+        boolean[][] visited = new boolean[maps.length][maps[0].length()];
         
         q.add(new int[] {fromR, fromC, 0});
         visited[fromR][fromC] = true;
@@ -53,8 +48,8 @@ class Solution {
             for(int i = 0; i < 4; i++) {
                 int nr = r + dr[i], nc = c + dc[i];
                 
-                if(nr < 0 || nr >= grids.length || nc < 0 || nc >= grids[0].length || 
-                   grids[nr][nc] == 1 || visited[nr][nc]) continue;
+                if(nr < 0 || nr >= maps.length || nc < 0 || nc >= maps[0].length() || 
+                   maps[nr].charAt(nc) == 'X' || visited[nr][nc]) continue;
                 
                 q.add(new int[] {nr, nc, cnt+1});
                 visited[nr][nc] = true;
