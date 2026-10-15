@@ -12,17 +12,16 @@ class Solution {
         
         int[][] grids = new int[maps.length][maps[0].length()];
         for(int i = 0; i < maps.length; i++) {
-            char[] tmp = maps[i].toCharArray();
-            for(int j = 0; j < tmp.length; j++) {
-                if(tmp[j] == 'X') grids[i][j] = 1;
+            for(int j = 0; j < maps[i].length(); j++) {
+                if(maps[i].charAt(j) == 'X') grids[i][j] = 1;
                 
-                else if (tmp[j] == 'S') {
+                else if (maps[i].charAt(j) == 'S') {
                     grids[i][j] = 0;
                     startR = i; startC = j;
-                } else if (tmp[j] == 'E') {
+                } else if (maps[i].charAt(j) == 'E') {
                     grids[i][j] = 0;
                     endR = i; endC = j;
-                } else if (tmp[j] == 'L') {
+                } else if (maps[i].charAt(j) == 'L') {
                     grids[i][j] = 0;
                     leverR = i; leverC = j;
                 }
