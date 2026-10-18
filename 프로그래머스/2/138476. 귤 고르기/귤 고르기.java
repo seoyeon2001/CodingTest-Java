@@ -9,14 +9,9 @@ class Solution {
             map.put(t, map.getOrDefault(t, 0) + 1);
         }
         
-        List<Integer> list = new ArrayList<>();
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            list.add(entry.getValue());
-        }
+        List<Integer> list = new ArrayList<>(map.values());
         
-        // System.out.println(list);
         Collections.sort(list, Collections.reverseOrder());
-        // System.out.println(list);
         
         for(int i = 0; i < list.size(); i++) {
             k -= list.get(i);
