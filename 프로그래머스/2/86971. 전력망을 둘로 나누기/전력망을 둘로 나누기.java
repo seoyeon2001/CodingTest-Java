@@ -1,11 +1,12 @@
 import java.util.*;
 
 class Solution {
-    static int answer;
+    static int answer = Integer.MAX_VALUE;
     static List<Integer>[] list;
+    static int n;
     
     public int solution(int n, int[][] wires) {
-        answer = Integer.MAX_VALUE;
+        this.n = n;
         
         list = new ArrayList[n+1];
         for(int i = 1; i <= n; i++) {
@@ -21,52 +22,39 @@ class Solution {
             list[wire[0]].remove(Integer.valueOf(wire[1]));
             list[wire[1]].remove(Integer.valueOf(wire[0]));
             
-            boolean[] visited = new boolean[n+1];
-        
-            // int cnt = dfs(1, visited);
-            int cnt = bfs(visited);
-
-            if(answer > Math.abs((n-cnt)-cnt)) answer = Math.abs((n-cnt)-cnt);
+            calc();
             
             list[wire[0]].add(wire[1]);
             list[wire[1]].add(wire[0]);
         }
-        
         return answer;
     }
     
-    static int bfs(boolean[] visited) {
-        int cnt = 0;
+    private void calc() {
+        int link = 0;
         Deque<Integer> q = new ArrayDeque<>();
+        boolean[] visited = new boolean[n+1];
+        
         q.add(1);
         visited[1] = true;
         
         while(!q.isEmpty()) {
             int cur = q.poll();
-            cnt++;
             
             for(int next : list[cur]) {
-                if(visited[next]) continue;
-                
-                q.add(next);
-                visited[next] = true;
+                if(!visited[next]) {
+                    q.add(next);
+                    visited[next] = true;
+                }
             }
         }
         
-        return cnt;
-    }
-    
-    static int dfs(int num, boolean[] visited) {
-        int cnt = 1;
-        
-        visited[num] = true;
-        
-        for(int link : list[num]) {
-            if(!visited[link]) {                
-                cnt += dfs(link, visited);
-            }
+        for(boolean b : visited) {
+            if(b) link++;
         }
         
-        return cnt;
+        int other = n - link;
+        
+        answer = Math.min(answer, Math.abs(other - link));
     }
 }
