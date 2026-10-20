@@ -1,48 +1,49 @@
 import java.util.*;
 
 class Solution {
-    static int answer = 0;
-    static int n;
+    static int answer;
     
     public int solution(int k, int[][] dungeons) {
-        n = dungeons.length;
+        answer = -1;
+        int n = dungeons.length;
         
-        permutation(k, dungeons, new ArrayList<>(), new boolean[n]);
-        
+        permutation(n, new ArrayList<>(), new boolean[n], k, dungeons);
         return answer;
     }
     
-    static void permutation(int k, int[][] dungeons, List<Integer> list, boolean[] visited) {
+    private void permutation(int n, List<Integer> list, boolean[] visited, int k, int[][] dungeons) {
         if(list.size() == n) {
             // System.out.println(list);
-            
-            calc(k, dungeons, list);
+            calc(list, k, dungeons);
             return;
         }
         
         for(int i = 0; i < n; i++) {
-            if(visited[i]) continue;
             
-            visited[i] = true;
-            list.add(i);
-            
-            permutation(k, dungeons, list, visited);
-            
-            int num = list.remove(list.size()-1);
-            visited[num] = false;
+            if(!visited[i]) {
+                list.add(i);
+                visited[i] = true;
+                
+                permutation(n, list, visited, k, dungeons);
+
+                list.remove(list.size()-1);
+                visited[i] = false;
+            }
         }
     }
     
-    static void calc(int k, int[][] dungeons, List<Integer> idxs) {
+    private void calc(List<Integer> list, int k, int[][] dungeons) {
         int cnt = 0;
         
-        for(int idx : idxs) {
+        for(int idx : list) {
             if(k >= dungeons[idx][0]) {
                 k -= dungeons[idx][1];
                 cnt++;
-            } else break;
+            } else {
+                break;
+            }
         }
-        
-        if(answer < cnt) answer = cnt;
+        // System.out.println(cnt);
+        if(cnt > answer) answer = cnt;
     }
 }
