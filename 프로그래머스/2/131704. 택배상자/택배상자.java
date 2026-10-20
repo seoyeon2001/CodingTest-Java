@@ -3,31 +3,30 @@ import java.util.*;
 class Solution {
     public int solution(int[] order) {
         int answer = 0;
-        Deque<Integer> q = new ArrayDeque<>();
+        Deque<Integer> mainQueue = new ArrayDeque<>();
         for(int i = 1; i <= order.length; i++) {
-            q.addLast(i);
+            mainQueue.addLast(i);
         }
-        Deque<Integer> subQ = new ArrayDeque<>();
+        Deque<Integer> subStack = new ArrayDeque<>();
         
-        int turn = order[0];
-        while(!subQ.isEmpty() || !q.isEmpty()) {
-            if(!q.isEmpty() && turn == q.peekFirst()) {
-                q.pollFirst();
+        int turn = order[answer];
+        while(!subStack.isEmpty() || !mainQueue.isEmpty()) {
+            if(!mainQueue.isEmpty() && turn == mainQueue.peek()) {
+                mainQueue.poll();
                 answer++;
                 if(answer == order.length) break;
                 turn = order[answer];
-            } else if(!subQ.isEmpty() && turn == subQ.peekFirst()) {
-                subQ.pollFirst();
+            } else if(!subStack.isEmpty() && turn == subStack.peek()) {
+                subStack.pop();
                 answer++;
                 if(answer == order.length) break;
                 turn = order[answer];
             } else {
-                if(!q.isEmpty()) {
-                    subQ.addFirst(q.pollFirst());
+                if(!mainQueue.isEmpty()) {
+                    subStack.push(mainQueue.poll());
                 } else {
                     break;
                 }
-                
             }
         }
         
