@@ -1,23 +1,24 @@
+import java.util.*;
+
 class Solution {
-    static int cnt;
+    static int answer;
     
     public int solution(int[] numbers, int target) {
+        answer = 0;
         
-        back(numbers, target, 0, numbers[0]);
-        back(numbers, target, 0, -numbers[0]);
-        
-        return cnt;
+        dfs(numbers, target, 0, numbers[0]);
+        dfs(numbers, target, 0, -numbers[0]);
+        return answer;
     }
     
-    static void back(int[] numbers, int target, int idx, int num) {        
-        if(idx == numbers.length-1) {
-            if(num == target) {
-                cnt++;
-            }
+    private void dfs(int[] numbers, int target, int depth, int sum) {
+        if(depth == numbers.length-1) {
+            // System.out.println(sum);
+            if(sum == target) answer++;
             return;
         }
         
-        back(numbers, target, idx+1, num + numbers[idx+1]);
-        back(numbers, target, idx+1, num - numbers[idx+1]);
+        dfs(numbers, target, depth+1, sum + numbers[depth+1]);
+        dfs(numbers, target, depth+1, sum - numbers[depth+1]);
     }
 }
