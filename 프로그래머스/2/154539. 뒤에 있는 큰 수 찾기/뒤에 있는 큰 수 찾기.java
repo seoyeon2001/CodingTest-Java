@@ -3,6 +3,7 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] numbers) {
         int[] answer = new int[numbers.length];
+        Arrays.fill(answer, -1);
         
         Deque<int[]> stack = new ArrayDeque<>();
         
@@ -17,9 +18,6 @@ class Solution {
             stack.push(new int[] {i, cntNum});
         }
         
-        while(!stack.isEmpty()) {
-            answer[stack.pop()[0]] = -1;
-        }
         return answer;
     }
 }
