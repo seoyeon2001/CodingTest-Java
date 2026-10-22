@@ -20,27 +20,18 @@ class Solution {
             }
         }
         
-        int[] winArr = new int[n+1];
         for(int i = 1; i <= n; i++) {
-            int cnt = 0;
+            int winCnt = 0;
+            int loseCnt = 0;
+            
             for(int j = 1; j <= n; j++) {
-                if(maps[i][j] == 1) cnt++;
+                if(maps[i][j] == 1) winCnt++;
+                if(maps[j][i] == 1) loseCnt++;
             }
-            winArr[i] = cnt;
+            
+            if(winCnt + loseCnt == n-1) answer++;
         }
         
-        int[] loseArr = new int[n+1];
-        for(int i = 1; i <= n; i++) {
-            int cnt = 0;
-            for(int j = 1; j <= n; j++) {
-                if(maps[j][i] == 1) cnt++;
-            }
-            loseArr[i] = cnt;
-        }
-        
-        for(int i = 1; i <= n; i++) {
-            if(winArr[i] + loseArr[i] == n-1) answer++;
-        }
         return answer;
     }
 }
