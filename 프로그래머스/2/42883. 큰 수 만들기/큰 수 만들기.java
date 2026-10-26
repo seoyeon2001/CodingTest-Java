@@ -4,18 +4,18 @@ class Solution {
     public String solution(String number, int k) {
         String answer = "";
                 
-        Deque<Integer> deque = new ArrayDeque<>();
-        deque.offerLast(number.charAt(0) - '0');
+        Deque<Character> deque = new ArrayDeque<>();
+        deque.offerLast(number.charAt(0));
                 
         for(int i = 1; i < number.length(); i++) {
-            while(!deque.isEmpty() && deque.peekLast() < number.charAt(i) - '0') {
+            while(!deque.isEmpty() && deque.peekLast() < number.charAt(i)) {
                 if(k <= 0) break;
                 
                 deque.pollLast();
                 k--;
             }
             
-            deque.offerLast(number.charAt(i) - '0');
+            deque.offerLast(number.charAt(i));
         }
                 
         while(k > 0) {
