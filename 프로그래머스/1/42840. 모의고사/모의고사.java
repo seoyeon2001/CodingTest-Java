@@ -2,33 +2,32 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] answers) {
+        int[] answer = new int[3];
         
         int[] one = {1, 2, 3, 4, 5}; // 5
         int[] two = {2, 1, 2, 3, 2, 4, 2, 5}; // 8
         int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}; // 10
         
-        int on = 0;
-        int tw = 0;
-        int th = 0;
-        
         for(int i = 0; i < answers.length; i++) {
-            if(answers[i] == one[i%5]) on++;
-            if(answers[i] == two[i%8]) tw++;
-            if(answers[i] == three[i%10]) th++;
+            int correct = answers[i];
+            
+            if(correct == one[i%5]) answer[0]++;
+            if(correct == two[i%8]) answer[1]++;
+            if(correct == three[i%10]) answer[2]++;
         }
         
-        int max = Math.max(on, Math.max(tw, th));
+        int max = Math.max(answer[0], Math.max(answer[1], answer[2]));
         
         List<Integer> list = new ArrayList<>();
-        if(on == max) list.add(1);
-        if(tw == max) list.add(2);
-        if(th == max) list.add(3);
-        // System.out.println(list);
-        
-        int[] answer = new int[list.size()];
-        for(int i = 0; i < list.size(); i++) {
-            answer[i] = list.get(i);
+        for(int i = 0; i < 3; i++) {
+            if(answer[i] == max) list.add(i+1);
         }
-        return answer;
+        
+        int[] result = new int[list.size()];
+        for(int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        
+        return result;
     }
 }
