@@ -1,52 +1,48 @@
 import java.util.*;
 
 class Solution {
+    class Node {
+        String word;
+        int cnt;
+        
+        Node(String word, int cnt) {
+            this.word = word;
+            this.cnt = cnt;
+        }
+    }
+    
     public int solution(String begin, String target, String[] words) {
-        
+        int answer = 0;
+        Deque<Node> q = new ArrayDeque<>();
         boolean[] visited = new boolean[words.length];
-        Deque<Pair> q = new ArrayDeque<>();
         
-        q.add(new Pair(begin, 0));
+        q.offer(new Node(begin, 0));
         
         while(!q.isEmpty()) {
-            Pair cur = q.poll();
+            Node cur = q.poll();
             String curWord = cur.word;
             int curCnt = cur.cnt;
             
-            if (curWord.equals(target)) return curCnt;
-            
+            // cur == target인지 확인
+            if(curWord.equals(target)) {
+                answer = curCnt;
+                break;
+            }
+
             for (int i = 0; i < words.length; i++) {
-                if (!visited[i] && check(curWord, words[i])) {
-                    q.add(new Pair(words[i], curCnt + 1));
-                    visited[i] = true;
+                if(visited[i]) continue;
+                
+                int cha = 0;                    
+                for(int j = 0; j < curWord.length(); j++) {
+                    if(curWord.charAt(j) != words[i].charAt(j)) cha++;
                 }
+                
+                if(cha == 1) {
+                    q.offer(new Node(words[i], curCnt+1));
+                    visited[i] = true;
+                }   
             }
         }
-        return 0;
-    }
-    
-    // 한 개의 알파벳만 다른지 확인하는 메서드
-    static boolean check(String word1, String word2) {
-        int cnt = 0;
-        
-        int length = word1.length();
-        for (int i = 0; i < length; i++) {
-            // 다르면 cnt++
-            if (word1.charAt(i) != word2.charAt(i)) cnt++;
-        }
-        
-        if (cnt != 1) return false;
-        
-        return true;
-    }
-}
-
-class Pair {
-    String word;
-    int cnt;
-    
-    Pair(String word, int cnt) {
-        this.word = word;
-        this.cnt = cnt;
+        return answer;
     }
 }
