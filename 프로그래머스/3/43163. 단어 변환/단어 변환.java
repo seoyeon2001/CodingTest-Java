@@ -25,8 +25,7 @@ class Solution {
             
             // cur == target인지 확인
             if(curWord.equals(target)) {
-                answer = curCnt;
-                break;
+                return curCnt;
             }
 
             for (int i = 0; i < words.length; i++) {
@@ -35,6 +34,8 @@ class Solution {
                 int cha = 0;                    
                 for(int j = 0; j < curWord.length(); j++) {
                     if(curWord.charAt(j) != words[i].charAt(j)) cha++;
+                    
+                    if(cha > 1) break;
                 }
                 
                 if(cha == 1) {
